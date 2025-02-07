@@ -12,21 +12,61 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }    
 
+enum HoroscopeAge {
+  today
+  tomorrow
+}
+
+enum HoroscopeLength {
+  short
+  medium
+  long
+}
+
+enum TimeOfDay {
+  T00_00
+  T01_00
+  T02_00
+  T03_00
+  T04_00
+  T05_00
+  T06_00
+  T07_00
+  T08_00
+  T09_00
+  T10_00
+  T11_00
+  T12_00
+  T13_00
+  T14_00
+  T15_00
+  T16_00
+  T17_00
+  T18_00
+  T19_00
+  T20_00
+  T21_00
+  T22_00
+  T23_00
+}
+
 model User {
   id                Int      @id @default(autoincrement())
   email             String   @unique
   name              String?
-  customer_id       String
-  emailTime         String   @default("08:00")
-  horoscopeAge      String   @default("Today's")
-  isAdmin           Boolean  @default(false)
-  p_countryOfBirth  String
-  p_dateOfBirth     DateTime
-  p_horoscopeLength String
-  p_timeOfBirth     String
-  price_id          String
+  emailTime         TimeOfDay?
+  horoscopeAge      HoroscopeAge @default(today)
+  horoscopeLength   HoroscopeLength @default(short)
   sign              String   @default("Aries")
-  subscription_id   String
+
+  // Personal Information
+  countryOfBirth    String?
+  dateOfBirth       DateTime?
+  timeOfBirth       TimeOfDay?
+
+  isAdmin           Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
 // model UserDailyHoroscope {
