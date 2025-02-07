@@ -30,7 +30,14 @@ export function LatestPost() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          createPost.mutate({ name });
+          createPost.mutate({
+            name,
+            email: "",
+            countryOfBirth: "",
+            dateOfBirth: "",
+            horoscopeLength: "",
+            timeOfBirth: "",
+          });
         }}
         className={styles.form}
       >

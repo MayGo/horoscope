@@ -16,13 +16,10 @@ export const postRouter = createTRPCRouter({
       z.object({
         name: z.string().min(1),
         email: z.string().min(1),
-        customer_id: z.string().min(1),
-        p_countryOfBirth: z.string().min(1),
-        p_dateOfBirth: z.string().min(1),
-        p_horoscopeLength: z.string().min(1),
-        p_timeOfBirth: z.string().min(1),
-        price_id: z.string().min(1),
-        subscription_id: z.string().min(1),
+        countryOfBirth: z.string(),
+        dateOfBirth: z.string(),
+        horoscopeLength: z.string(),
+        timeOfBirth: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -30,13 +27,8 @@ export const postRouter = createTRPCRouter({
         data: {
           name: input.name,
           email: input.email,
-          customer_id: input.customer_id,
-          p_countryOfBirth: input.p_countryOfBirth,
-          p_dateOfBirth: input.p_dateOfBirth,
-          p_horoscopeLength: input.p_horoscopeLength,
-          p_timeOfBirth: input.p_timeOfBirth,
-          price_id: input.price_id,
-          subscription_id: input.subscription_id,
+          countryOfBirth: input.countryOfBirth,
+          dateOfBirth: input.dateOfBirth,
         },
       });
     }),
