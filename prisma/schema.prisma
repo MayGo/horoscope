@@ -10,17 +10,17 @@ datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
-}    
+}       
 
 enum HoroscopeAge {
-  today
-  tomorrow
+  Today
+  Tomorrow
 }
 
 enum HoroscopeLength {
-  short
-  medium
-  long
+  Short
+  Medium
+  Long
 }
 
 enum TimeOfDay {
@@ -50,14 +50,29 @@ enum TimeOfDay {
   T23_00
 }
 
+enum HoroscopeSign {
+  Aries
+  Taurus
+  Gemini
+  Cancer
+  Leo
+  Virgo
+  Libra
+  Scorpio
+  Sagittarius
+  Capricorn
+  Aquarius
+  Pisces
+}
+
 model User {
   id                Int      @id @default(autoincrement())
   email             String   @unique
   name              String?
   emailTime         TimeOfDay?
-  horoscopeAge      HoroscopeAge @default(today)
-  horoscopeLength   HoroscopeLength @default(short)
-  sign              String   @default("Aries")
+  horoscopeAge      HoroscopeAge @default(Today)
+  horoscopeLength   HoroscopeLength @default(Short)
+  sign              HoroscopeSign @default(Aries)
 
   // Personal Information
   countryOfBirth    String?
@@ -79,3 +94,12 @@ model User {
 //   createdAt     DateTime @default(now())
 //   updatedAt     DateTime @updatedAt
 // }
+
+model DailyHoroscope {
+  id            Int            @id @default(autoincrement())
+  forDate          DateTime
+  horoscopeText String
+  sign          HoroscopeSign
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
