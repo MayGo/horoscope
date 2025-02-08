@@ -11,6 +11,7 @@ const textColorGray = "#6C6969";
 const borderColor = "#84B2FE";
 const shadowColor = "#D1DCFF";
 const yellowColor = "#FFD646";
+const yellowColorBg = "#FFFAEF";
 
 const config = defineConfig({
   ...defaultSystem._config,
@@ -140,6 +141,9 @@ const config = defineConfig({
         },
         yellowColor: {
           value: yellowColor,
+        },
+        yellowColorBg: {
+          value: yellowColorBg,
         },
         mainGray: {
           value: mainGray,

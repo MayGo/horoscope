@@ -11,10 +11,12 @@ export const HeroItem = ({
 }) => {
   return (
     <Flex flexDirection="row" gap={4}>
-      <Image height="150px" width="150px" loading="lazy" alt="" src={image} />
+      <Image boxSize="150px" loading="lazy" alt={heading} src={image} />
 
       <Flex flexDirection="column" gap={2} justifyContent="center">
-        <Heading size="3xl">{heading}</Heading>
+        <Heading as="h3" size="3xl">
+          {heading}
+        </Heading>
         <Text fontSize="md" color="textColorGray" fontWeight="bold">
           {description}
         </Text>

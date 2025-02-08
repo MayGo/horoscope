@@ -9,6 +9,7 @@ import { HeaderNavbar } from "~/components/Header/HeaderNavbar";
 import { ThemeProvider } from "~/components/theme/ThemeProvider";
 import { TRPCReactProvider } from "~/trpc/react";
 
+import { ClerkProvider } from "@clerk/nextjs";
 import { M_PLUS_Rounded_1c, Roboto } from "next/font/google";
 
 const roboto = Roboto({
@@ -36,22 +37,24 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${roboto.variable} ${mPlusRounded.variable}`}>
-      <body className={GeistSans.className}>
-        <TRPCReactProvider>
-          <ThemeProvider>
-            <Box>
-              <Box maxW="1000px" mx="auto" px={[0, 2, 4]}>
-                <HeaderNavbar />
+    <ClerkProvider>
+      <html lang="en" className={`${roboto.variable} ${mPlusRounded.variable}`}>
+        <body className={GeistSans.className}>
+          <TRPCReactProvider>
+            <ThemeProvider>
+              <Box>
+                <Box maxW="1000px" mx="auto" px={[0, 2, 4]}>
+                  <HeaderNavbar />
 
-                {children}
+                  {children}
 
-                <Footer />
+                  <Footer />
+                </Box>
               </Box>
-            </Box>
-          </ThemeProvider>
-        </TRPCReactProvider>
-      </body>
-    </html>
+            </ThemeProvider>
+          </TRPCReactProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

@@ -1,4 +1,13 @@
-# Create T3 App
+# Horoscope App
+
+## TODO
+
+- [ ] Add a horoscope home page
+- [ ] Add a personalization benefits page
+- [ ] Add a form personalization page
+- [ ] Generate horoscope with open AI based on personalization
+- [ ] Send email to user with horoscope
+- [ ] Add cron to send horoscope to user daily at configured time
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
@@ -9,11 +18,9 @@ We try to keep this project as simple as possible, so you can start with just th
 If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
 
 - [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
 - [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
 - [tRPC](https://trpc.io)
+- [Clerk](https://clerk.com/docs/quickstarts/nextjs)
 
 ## Learn More
 
