@@ -1,5 +1,6 @@
 import { Flex, Heading, SimpleGrid } from "@chakra-ui/react";
 import { HeroItem } from "../_components/HeroItem";
+import UserSettingsForm from "./UserSettingsForm";
 
 export default function Personalization() {
   return (
@@ -29,6 +30,7 @@ export default function Personalization() {
           description="Factoring in current astrological transits and how they specifically affect the individual"
         />
       </SimpleGrid>
+      <UserSettingsForm />
     </Flex>
   );
 }
