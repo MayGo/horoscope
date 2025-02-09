@@ -1,34 +1,36 @@
 'use client';
 
-import { Button, Input, Stack } from '@chakra-ui/react';
+import { Input, Stack, VStack } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { startTransition, useActionState, useEffect, useRef } from 'react';
-import { useForm } from 'react-hook-form';
+import { useAction } from 'next-safe-action/hooks';
+import { useRef } from 'react';
+import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import { type z } from 'zod';
-import { submitUserSettings } from '~/actions/submitUserSettings';
+import { saveUserSettingsAction } from '~/actions/saveUserSettingsAction';
+import { DisplayServerActionResponse } from '~/components/DisplayServerActionResponse';
+import { Button } from '~/components/ui/button';
 import { Field } from '~/components/ui/field';
 import { SimpleSelect } from '~/components/ui/SimpleSelect';
+import { toaster } from '~/components/ui/Toaster';
 import { userSettingsSchema } from '~/validations/userSettings.validation';
-import {
-    horoscopeAgesOptions,
-    horoscopeLengthsOptions,
-    horoscopeSignsOptions,
-    timeOfDaysOptions
-} from './UserSettingsForm.utils';
+import { horoscopeAgesOptions, horoscopeLengthsOptions, timeOfDaysOptions } from './UserSettingsForm.utils';
 
-// Define the form component
-const UserSettingsForm = () => {
-    const [formState, formAction] = useActionState(submitUserSettings, {
-        success: false
-    });
+const InputLabel = ({ label, name, children }: { label: string; name: string; children: React.ReactNode }) => {
+    const { getFieldState, formState } = useFormContext();
+    const { invalid, error } = getFieldState(name, formState);
+
+    return (
+        <Field label={label} invalid={invalid} errorText={error?.message ?? 'Error in this field'}>
+            {children}
+        </Field>
+    );
+};
+
+export const UserSettingsForm = () => {
     const formRef = useRef<HTMLFormElement>(null);
-    const { errors = {} } = formState;
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { isSubmitSuccessful }
-    } = useForm<z.output<typeof userSettingsSchema>>({
+
+    const methods = useForm<z.output<typeof userSettingsSchema>>({
+        mode: 'onTouched',
         resolver: zodResolver(userSettingsSchema),
         defaultValues: {
             name: '',
@@ -37,92 +39,78 @@ const UserSettingsForm = () => {
             horoscopeLength: 'Short',
             sign: 'Aries',
             countryOfBirth: '',
-            timeOfBirth: 'T00_00',
-            ...(formState?.fields ?? {})
-        },
-        mode: 'onTouched'
-    });
-    console.log(formState);
-    console.log('fields returned: ', { ...(formState?.fields ?? {}) });
-
-    useEffect(() => {
-        if (isSubmitSuccessful && formState.success) {
-            reset();
+            timeOfBirth: 'T00_00'
         }
-    }, [reset, isSubmitSuccessful, formState.success]);
-    return (
-        <form
-            ref={formRef}
-            action={formAction}
-            onSubmit={async (evt) => {
-                evt.preventDefault();
-                await handleSubmit(() => {
-                    startTransition(() => formAction(new FormData(formRef.current!)));
-                })(evt);
-            }}
-        >
-            <Stack gap={4}>
-                <Field
-                    label="Name"
-                    invalid={!!errors.name}
-                    errorText={errors.name ? JSON.stringify(errors.name) : 'This field is required'}
-                >
-                    <Input placeholder="Enter your name" {...register('name')} />
-                </Field>
-                <Field
-                    label="Email Time"
-                    invalid={!!errors.emailTime}
-                    errorText={errors.emailTime ? JSON.stringify(errors.emailTime) : 'This is an error'}
-                >
-                    <SimpleSelect items={timeOfDaysOptions} label="Email Time" />
-                </Field>
-                <Field
-                    label="Horoscope Age"
-                    invalid={!!errors.horoscopeAge}
-                    errorText={errors.horoscopeAge ? JSON.stringify(errors.horoscopeAge) : 'This is an error'}
-                >
-                    <SimpleSelect items={horoscopeAgesOptions} label="Horoscope Age" />
-                </Field>
-                <Field
-                    label="Horoscope Length"
-                    invalid={!!errors.horoscopeLength}
-                    errorText={errors.horoscopeLength ? JSON.stringify(errors.horoscopeLength) : 'This is an error'}
-                >
-                    <SimpleSelect items={horoscopeLengthsOptions} label="Horoscope Length" />
-                </Field>
-                <Field
-                    label="Sign"
-                    invalid={!!errors.sign}
-                    errorText={errors.sign ? JSON.stringify(errors.sign) : 'This is an error'}
-                >
-                    <SimpleSelect items={horoscopeSignsOptions} label="Sign" />
-                </Field>
-                <Field
-                    label="Country of Birth"
-                    invalid={!!errors.countryOfBirth}
-                    errorText={errors.countryOfBirth ? JSON.stringify(errors.countryOfBirth) : 'This field is required'}
-                >
-                    <Input placeholder="Enter your country of birth" {...register('countryOfBirth')} />
-                </Field>
-                <Field
-                    label="Date of Birth"
-                    invalid={!!errors.dateOfBirth}
-                    errorText={errors.dateOfBirth ? JSON.stringify(errors.dateOfBirth) : 'This field is required'}
-                >
-                    <Input type="date" {...register('dateOfBirth')} />
-                </Field>
+    });
 
-                <Field
-                    label="Time of Birth"
-                    invalid={!!errors.timeOfBirth}
-                    errorText={errors.timeOfBirth ? JSON.stringify(errors.timeOfBirth) : 'This is an error'}
-                >
-                    <SimpleSelect items={timeOfDaysOptions} label="Time of Birth" />
-                </Field>
-                <Button type="submit">Save Settings</Button>
-            </Stack>
-        </form>
+    const { register, handleSubmit } = methods;
+
+    const {
+        execute: executeSave,
+        result: saveResult,
+        isPending: isSaving
+    } = useAction(saveUserSettingsAction, {
+        onSuccess({ data }: { data?: { message: string } }) {
+            if (data?.message) {
+                toaster.success({
+                    title: 'Success! 🎉',
+                    description: data.message
+                });
+            }
+        },
+        onError() {
+            toaster.error({
+                title: 'Error',
+                description: 'Save Failed'
+            });
+        }
+    });
+
+    async function submitForm(data: z.output<typeof userSettingsSchema>) {
+        executeSave(data);
+    }
+
+    return (
+        <FormProvider {...methods}>
+            <form ref={formRef} onSubmit={handleSubmit(submitForm)}>
+                <VStack gap={10}>
+                    <DisplayServerActionResponse result={saveResult} />
+                    <Stack direction="row" gap={10} w="full">
+                        <Stack gap={4} w="full">
+                            <InputLabel label="Name" name="name">
+                                <Input placeholder="Enter your name" {...register('name')} />
+                            </InputLabel>
+                            <InputLabel label="Sign" name="sign">
+                                <SimpleSelect items={horoscopeAgesOptions} label="Horoscope Age" />
+                            </InputLabel>
+
+                            <InputLabel label="Country of Birth" name="countryOfBirth">
+                                <Input placeholder="Enter your country of birth" {...register('countryOfBirth')} />
+                            </InputLabel>
+                            <InputLabel label="Date of Birth" name="dateOfBirth">
+                                <Input type="date" {...register('dateOfBirth')} autoComplete="password" />
+                            </InputLabel>
+                            <InputLabel label="Time of Birth" name="timeOfBirth">
+                                <SimpleSelect items={timeOfDaysOptions} label="Time of Birth" />
+                            </InputLabel>
+                        </Stack>
+                        <Stack gap={4} w="full">
+                            <InputLabel label="Email Time" name="emailTime">
+                                <SimpleSelect items={timeOfDaysOptions} label="Email Time" />
+                            </InputLabel>
+                            <InputLabel label="Horoscope Age" name="horoscopeAge">
+                                <SimpleSelect items={horoscopeAgesOptions} label="Horoscope Age" />
+                            </InputLabel>
+                            <InputLabel label="Horoscope Length" name="horoscopeLength">
+                                <SimpleSelect items={horoscopeLengthsOptions} label="Horoscope Length" />
+                            </InputLabel>
+                        </Stack>
+                    </Stack>
+                    <Button type="submit" disabled={isSaving} variant="solid" colorScheme="yellow">
+                        {isSaving ? 'Saving...' : 'Save Settings'}
+                    </Button>
+                </VStack>
+            </form>
+        </FormProvider>
     );
 };
-
-export default UserSettingsForm;

@@ -13,7 +13,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function 
     const { isLoading: loading, disabled, loadingText, children, ...rest } = props;
     return (
         <ChakraButton
-            disabled={loading || disabled}
+            disabled={loading ?? disabled}
             ref={ref}
             {...rest}
             borderRadius="full"
