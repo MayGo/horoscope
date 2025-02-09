@@ -49,7 +49,6 @@ export const SimpleSelect = ({ items, label, name }: { items: Item[]; label: str
                     name={field.name}
                     value={[field.value] as string[]}
                     onValueChange={({ value }: { value: string[] }) => {
-                        console.log('value', value);
                         field.onChange(value[0]);
                     }}
                     onInteractOutside={() => field.onBlur()}

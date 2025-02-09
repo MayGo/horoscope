@@ -3,18 +3,17 @@ import { auth } from '@clerk/nextjs/server';
 import { eq } from 'drizzle-orm';
 import { flattenValidationErrors } from 'next-safe-action';
 import 'server-only';
-import { type z } from 'zod';
 import { db } from '~/server/db/db';
 import { userSettings } from '~/server/db/schema';
 import { actionClient } from '../../lib/safe-action';
-import { userSettingsSchema } from '../../validations/userSettings.validation';
+import { type UserSettingsSchema, userSettingsSchema } from '../../validations/userSettings.validation';
 
 export const saveUserSettingsAction = actionClient
     .metadata({ actionName: 'saveUserSettingsAction' })
     .schema(userSettingsSchema, {
         handleValidationErrorsShape: async (ve) => flattenValidationErrors(ve).fieldErrors
     })
-    .action(async ({ parsedInput }: { parsedInput: z.infer<typeof userSettingsSchema> }) => {
+    .action(async ({ parsedInput }: { parsedInput: UserSettingsSchema }) => {
         if (parsedInput.name === 'test') {
             throw new Error('Name cannot be test');
         }

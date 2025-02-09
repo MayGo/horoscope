@@ -4,32 +4,20 @@ import { Input, Stack, VStack } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAction } from 'next-safe-action/hooks';
 import { useRef } from 'react';
-import { FormProvider, useForm, useFormContext } from 'react-hook-form';
-import { type z } from 'zod';
+import { FormProvider, useForm } from 'react-hook-form';
 import { Button } from '~/components/ui/button';
-import { Field } from '~/components/ui/field';
 import { SimpleSelect } from '~/components/ui/SimpleSelect';
 import { toaster } from '~/components/ui/Toaster';
 import { saveUserSettingsAction } from '~/server/actions/saveUserSettingsAction';
 import { HoroscopeAge, HoroscopeLength, HoroscopeSign, TimeOfDay } from '~/utils/values';
-import { userSettingsSchema } from '~/validations/userSettings.validation';
+import { type UserSettingsSchema, userSettingsSchema } from '~/validations/userSettings.validation';
+import { InputLabel } from './InputLabel';
 import {
     horoscopeAgesOptions,
     horoscopeLengthsOptions,
     horoscopeSignsOptions,
     timeOfDaysOptions
 } from './UserSettingsForm.utils';
-
-const InputLabel = ({ label, name, children }: { label: string; name: string; children: React.ReactNode }) => {
-    const { getFieldState, formState } = useFormContext();
-    const { invalid, error } = getFieldState(name, formState);
-
-    return (
-        <Field label={label} invalid={invalid} errorText={error?.message ?? 'Error in this field'}>
-            {children}
-        </Field>
-    );
-};
 
 const defaultValues = {
     name: '',
@@ -42,10 +30,10 @@ const defaultValues = {
     timeOfBirth: TimeOfDay.T00_00
 };
 
-export const UserSettingsForm = ({ data = defaultValues }: { data?: z.infer<typeof userSettingsSchema> }) => {
+export const UserSettingsForm = ({ data = defaultValues }: { data?: UserSettingsSchema }) => {
     const formRef = useRef<HTMLFormElement>(null);
 
-    const methods = useForm<z.output<typeof userSettingsSchema>>({
+    const methods = useForm<UserSettingsSchema>({
         mode: 'onTouched',
         resolver: zodResolver(userSettingsSchema),
         defaultValues: {
@@ -72,7 +60,7 @@ export const UserSettingsForm = ({ data = defaultValues }: { data?: z.infer<type
         }
     });
 
-    async function submitForm(data: z.output<typeof userSettingsSchema>) {
+    async function submitForm(data: UserSettingsSchema) {
         executeSave(data);
     }
 
