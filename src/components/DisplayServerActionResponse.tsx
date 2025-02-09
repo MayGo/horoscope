@@ -12,12 +12,12 @@ type Props = {
 
 const MessageBox = ({ type, content }: { type: 'success' | 'error'; content: React.ReactNode }) =>
     type === 'success' ? (
-        <Alert.Root status="error">
+        <Alert.Root status="success">
             <Alert.Indicator />
             <Alert.Title>{content}</Alert.Title>
         </Alert.Root>
     ) : (
-        <Alert.Root status="info">
+        <Alert.Root status="error">
             <Alert.Indicator />
             <Alert.Title>{content}</Alert.Title>
         </Alert.Root>
@@ -28,7 +28,7 @@ export function DisplayServerActionResponse({ result }: Props) {
 
     return (
         <>
-            {data?.message && <MessageBox type="success" content={`Success: ${data.message}`} />}
+            {/* {data?.message && <MessageBox type="success" content={`Success: ${data.message}`} />} */}
 
             {serverError && <MessageBox type="error" content={serverError} />}
 

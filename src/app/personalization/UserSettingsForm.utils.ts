@@ -1,6 +1,6 @@
 'use client';
 
-import { HoroscopeAge, HoroscopeLength, HoroscopeSign, TimeOfDay } from './enums';
+import { HoroscopeAge, HoroscopeLength, HoroscopeSign, TimeOfDay } from '~/utils/values';
 
 export const horoscopeAgesOptions = Object.values(HoroscopeAge).map((age) => ({
     label: age as string,

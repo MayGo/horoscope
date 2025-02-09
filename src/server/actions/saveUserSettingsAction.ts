@@ -24,24 +24,24 @@ export const saveUserSettingsAction = actionClient
             throw new Error('User not authenticated');
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
         const existingSettings = (
             await db.select().from(userSettings).where(eq(userSettings.userId, authUser.userId))
         )[0];
 
         if (!existingSettings) {
-            throw new Error('User settings not found');
-        }
-
-        await db
-            .update(userSettings)
-            .set({
+            await db.insert(userSettings).values({
                 userId: authUser.userId,
                 ...parsedInput
-            })
-            .where(eq(userSettings.userId, authUser.userId));
+            });
+        } else {
+            await db
+                .update(userSettings)
+                .set({
+                    userId: authUser.userId,
+                    ...parsedInput
+                })
+                .where(eq(userSettings.userId, authUser.userId));
+        }
 
-        // Implement the logic to save user settings here
-        // For now, just return a success message
         return { message: 'User settings saved successfully' };
     });

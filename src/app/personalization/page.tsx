@@ -1,8 +1,11 @@
 import { Flex, Heading, SimpleGrid } from '@chakra-ui/react';
+import { getUserSettings } from '~/server/queries';
 import { HeroItem } from '../_components/HeroItem';
 import { UserSettingsForm } from './UserSettingsForm';
 
-export default function Personalization() {
+export default async function Personalization() {
+    const settings = await getUserSettings();
+
     return (
         <Flex flexDirection="column" py={6} pt={10}>
             <Heading size="4xl" fontWeight="100" textAlign="center" pb={6}>
@@ -33,7 +36,7 @@ export default function Personalization() {
             <Heading size="4xl" fontWeight="100" textAlign="center" pb={6} pt={10}>
                 Personalization Settings
             </Heading>
-            <UserSettingsForm />
+            <UserSettingsForm data={settings} />
         </Flex>
     );
 }

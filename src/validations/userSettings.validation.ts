@@ -1,5 +1,5 @@
-import { HoroscopeAge, HoroscopeLength, HoroscopeSign, TimeOfDay } from '@prisma/client';
 import { z } from 'zod';
+import { HoroscopeAge, HoroscopeLength, HoroscopeSign, TimeOfDay } from '~/utils/values';
 
 export const userSettingsSchema = z.object({
     name: z.string().min(2, { message: 'Name is required' }),
@@ -8,7 +8,7 @@ export const userSettingsSchema = z.object({
     horoscopeLength: z.nativeEnum(HoroscopeLength).optional(),
     sign: z.nativeEnum(HoroscopeSign).optional(),
     countryOfBirth: z.string().optional(),
-    dateOfBirth: z.date().optional(),
+    dateOfBirth: z.string().optional(),
     timeOfBirth: z.nativeEnum(TimeOfDay).optional()
 });
 
