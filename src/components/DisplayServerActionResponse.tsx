@@ -24,7 +24,7 @@ const MessageBox = ({ type, content }: { type: 'success' | 'error'; content: Rea
     );
 
 export function DisplayServerActionResponse({ result }: Props) {
-    const { data, serverError, validationErrors } = result;
+    const { serverError, validationErrors } = result;
 
     return (
         <>

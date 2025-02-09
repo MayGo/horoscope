@@ -29,9 +29,7 @@ export const AccordionItemTrigger = React.forwardRef<HTMLButtonElement, Accordio
     }
 );
 
-interface AccordionItemContentProps extends Accordion.ItemContentProps {}
-
-export const AccordionItemContent = React.forwardRef<HTMLDivElement, AccordionItemContentProps>(
+export const AccordionItemContent = React.forwardRef<HTMLDivElement, Accordion.ItemContentProps>(
     function AccordionItemContent(props, ref) {
         return (
             <Accordion.ItemContent>

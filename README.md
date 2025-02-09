@@ -2,10 +2,11 @@
 
 ## TODO
 
--   [ ] Add a horoscope home page
--   [ ] Add a personalization benefits page
--   [ ] Add a form personalization page
--   [ ] Generate horoscope with open AI based on personalization
+-   [x] Add a horoscope home page
+-   [x] Add a personalization benefits page
+-   [x] Add a form personalization page
+-   [x] Generate horoscope with open AI based on personalization
+-   [ ] Add CRON to generate daily horoscpe to db
 -   [ ] Send email to user with horoscope
 -   [ ] Add cron to send horoscope to user daily at configured time
 
