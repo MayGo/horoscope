@@ -1,11 +1,10 @@
-import { Flex, Heading, SimpleGrid } from '@chakra-ui/react';
-import { getUserSettings } from '~/server/queries';
+import { Box, Flex, Heading, SimpleGrid } from '@chakra-ui/react';
+import { SignedIn, SignedOut } from '@clerk/nextjs';
+import { MessageBox } from '~/components/MessageBox';
 import { HeroItem } from '../_components/HeroItem';
-import { UserSettingsForm } from './UserSettingsForm';
+import UserSettings from './UserSettings';
 
-export default async function Personalization() {
-    const settings = await getUserSettings();
-
+export default function Personalization() {
     return (
         <Flex flexDirection="column" py={6} pt={10}>
             <Heading size="4xl" fontWeight="100" textAlign="center" pb={6}>
@@ -33,10 +32,19 @@ export default async function Personalization() {
                     description="Factoring in current astrological transits and how they specifically affect the individual"
                 />
             </SimpleGrid>
-            <Heading size="4xl" fontWeight="100" textAlign="center" pb={6} pt={10}>
-                Personalization Settings
-            </Heading>
-            <UserSettingsForm data={settings} />
+            <SignedOut>
+                <Box pt={10}>
+                    <MessageBox type="warning" content="Please sign in to personalize your horoscope" />
+                </Box>
+            </SignedOut>
+            <SignedIn>
+                <>
+                    <Heading size="4xl" fontWeight="100" textAlign="center" pb={6} pt={10}>
+                        Personalization Settings
+                    </Heading>
+                    <UserSettings />
+                </>
+            </SignedIn>
         </Flex>
     );
 }
