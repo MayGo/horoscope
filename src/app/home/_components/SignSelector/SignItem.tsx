@@ -27,7 +27,7 @@ export function SignItem({ name, dateRange, image, isSelected }: SignItemProps) 
                 <Text fontSize="xl" fontWeight="bold">
                     {name}
                 </Text>
-                <Text fontSize="xx-small" fontWeight="bold">
+                <Text fontSize="xx-small" fontWeight="medium">
                     {dateRange}
                 </Text>
             </VStack>

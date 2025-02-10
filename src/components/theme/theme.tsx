@@ -17,7 +17,8 @@ const config = defineConfig({
     globalCss: {
         html: {
             colorPalette: 'yellow',
-            scrollBehavior: 'smooth !important'
+            scrollBehavior: 'smooth !important',
+            color: mainGray
         }
     },
     theme: {

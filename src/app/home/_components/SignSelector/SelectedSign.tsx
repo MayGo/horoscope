@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Text, VStack } from '@chakra-ui/react';
+import { Box, Flex, Heading, List, ListItem, Text, VStack } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { MessageBox } from '~/components/MessageBox';
 import { Button } from '~/components/ui/button';
@@ -8,13 +8,13 @@ interface SelectedSignProps {
     name: HoroscopeSignType;
 }
 
-const getTodayDate = () => {
-    const today = new Date();
-    return today.toISOString().split('T')[0] ?? '';
+const formatDate = (date: Date) => {
+    // February 10, 2025
+    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 };
 
 export async function SelectedSign({ name }: SelectedSignProps) {
-    const today = getTodayDate();
+    const today = new Date();
 
     const dailyHoroscope = await findDailyHoroscope(name, today);
 
@@ -27,19 +27,24 @@ export async function SelectedSign({ name }: SelectedSignProps) {
     }
 
     return (
-        <VStack justifyContent="space-between" height="full">
+        <VStack height="full" gap={8}>
             <Flex justifyContent="space-between" justifyItems="center" alignItems="baseline" w="full">
                 <Heading size="3xl">{name}</Heading>
                 <Text fontSize="md" fontWeight="light">
-                    {today}
-                    {dailyHoroscope.date}
+                    {formatDate(today)}
                 </Text>
             </Flex>
-            <Text fontSize="md" fontWeight="bold" color="textColorGray" whiteSpace="pre-line">
-                {dailyHoroscope.horoscopes.map((horoscope) => horoscope).join('\n')}
-            </Text>
+            <List.Root gap={4}>
+                {dailyHoroscope.horoscopes.map((horoscope) => (
+                    <ListItem key={horoscope} _marker={{ color: 'yellowColor' }}>
+                        <Text fontSize="md" fontWeight="medium" whiteSpace="pre-line">
+                            {horoscope}
+                        </Text>
+                    </ListItem>
+                ))}
+            </List.Root>
             <NextLink href="/personalization" passHref legacyBehavior>
-                <Button variant="outline" colorScheme="yellow">
+                <Button variant="solid" colorScheme="yellow">
                     Personalized Horoscope
                 </Button>
             </NextLink>

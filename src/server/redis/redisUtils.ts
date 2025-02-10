@@ -5,7 +5,8 @@ export function capitalize(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export const getDailyHoroscopeKey = (sign: HoroscopeSignType, date: string) => {
-    const key = `horoscope:${date}:${capitalize(sign)}`;
+export const getDailyHoroscopeKey = (sign: HoroscopeSignType, date: Date) => {
+    const dateStr = date.toISOString().split('T')[0] ?? '';
+    const key = `horoscope:${dateStr}:${capitalize(sign)}`;
     return key;
 };
