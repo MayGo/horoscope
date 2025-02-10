@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import { HoroscopeSign } from '~/utils/values';
+import { HoroscopeSigns } from '~/utils/values';
 
 export const testSettingsSchema = z.object({
-    sign: z.nativeEnum(HoroscopeSign),
+    sign: z.nativeEnum(HoroscopeSigns),
     date: z.string().min(1, { message: 'Date is required' })
 });
 

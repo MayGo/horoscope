@@ -1,6 +1,6 @@
 'use client';
 
-import { HoroscopeAge, HoroscopeLength, HoroscopeSign, TimeOfDay } from '~/utils/values';
+import { HoroscopeAge, HoroscopeLength, HoroscopeSigns, TimeOfDay } from '~/utils/values';
 
 export const horoscopeAgesOptions = Object.values(HoroscopeAge).map((age) => ({
     label: age as string,
@@ -12,7 +12,7 @@ export const horoscopeLengthsOptions = Object.values(HoroscopeLength).map((len) 
     value: len as string
 }));
 
-export const horoscopeSignsOptions = Object.values(HoroscopeSign).map((sign) => ({
+export const horoscopeSignsOptions = Object.values(HoroscopeSigns).map((sign) => ({
     label: sign as string,
     value: sign as string
 }));

@@ -9,7 +9,7 @@ import { Button } from '~/components/ui/button';
 import { SimpleSelect } from '~/components/ui/SimpleSelect';
 import { toaster } from '~/components/ui/Toaster';
 import { saveUserSettingsAction } from '~/server/actions/saveUserSettingsAction';
-import { HoroscopeAge, HoroscopeLength, HoroscopeSign, TimeOfDay } from '~/utils/values';
+import { HoroscopeAge, HoroscopeLength, HoroscopeSigns, TimeOfDay } from '~/utils/values';
 import { type UserSettingsSchema, userSettingsSchema } from '~/validations/userSettings.validation';
 import { InputLabel } from './InputLabel';
 import {
@@ -24,7 +24,7 @@ const defaultValues = {
     emailTime: TimeOfDay.T00_00,
     horoscopeAge: HoroscopeAge.Today,
     horoscopeLength: HoroscopeLength.Short,
-    sign: HoroscopeSign.Aries,
+    sign: HoroscopeSigns.Aries,
     countryOfBirth: '',
     dateOfBirth: '',
     timeOfBirth: TimeOfDay.T00_00

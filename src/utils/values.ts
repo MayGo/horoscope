@@ -42,7 +42,7 @@ export const TimeOfDay = {
 
 export type TimeOfDayType = (typeof TimeOfDay)[keyof typeof TimeOfDay];
 
-export const HoroscopeSign = {
+export const HoroscopeSigns = {
     Aries: 'Aries',
     Taurus: 'Taurus',
     Gemini: 'Gemini',
@@ -57,4 +57,4 @@ export const HoroscopeSign = {
     Pisces: 'Pisces'
 } as const;
 
-export type HoroscopeSignType = (typeof HoroscopeSign)[keyof typeof HoroscopeSign];
+export type HoroscopeSignType = (typeof HoroscopeSigns)[keyof typeof HoroscopeSigns];

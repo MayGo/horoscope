@@ -10,14 +10,14 @@ import { SimpleSelect } from '~/components/ui/SimpleSelect';
 import { toaster } from '~/components/ui/Toaster';
 import { generateHoroscopeAction } from '~/server/actions/generateHoroscopeAction';
 import { type HoroscopeResultSchema } from '~/utils/aiTexts';
-import { HoroscopeSign } from '~/utils/values';
+import { HoroscopeSigns } from '~/utils/values';
 import { testSettingsSchema, type TestSettingsSchema } from '~/validations/testSettings.validation';
 import { InputLabel } from '../personalization/InputLabel';
 import { horoscopeSignsOptions } from '../personalization/UserSettingsForm.utils';
 import { TestResult } from './TestResult';
 
 const defaultValues = {
-    sign: HoroscopeSign.Aries,
+    sign: HoroscopeSigns.Aries,
     date: '2025-02-09'
 };
 

@@ -4,7 +4,7 @@ import { flattenValidationErrors } from 'next-safe-action';
 import 'server-only';
 import { testSettingsSchema, type TestSettingsSchema } from '~/validations/testSettings.validation';
 import { actionClient } from '../../lib/safe-action';
-import { getHoroscope } from '../ai';
+import { createHoroscopeWithAI } from '../ai';
 
 export const generateHoroscopeAction = actionClient
     .metadata({ actionName: 'generateHoroscopeAction' })
@@ -17,7 +17,7 @@ export const generateHoroscopeAction = actionClient
             throw new Error('User not authenticated');
         }
 
-        const result = await getHoroscope(parsedInput.sign, parsedInput.date);
+        const result = await createHoroscopeWithAI(parsedInput.sign, parsedInput.date);
 
         if (!result) {
             throw new Error('Failed to generate horoscope');
