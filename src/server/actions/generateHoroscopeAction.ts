@@ -17,7 +17,7 @@ export const generateHoroscopeAction = actionClient
             throw new Error('User not authenticated');
         }
 
-        const result = await createHoroscopeWithAI(parsedInput.sign, parsedInput.date);
+        const result = await createHoroscopeWithAI(parsedInput.sign, new Date(parsedInput.date));
 
         if (!result) {
             throw new Error('Failed to generate horoscope');

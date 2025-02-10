@@ -23,7 +23,7 @@ function getTomorrowsDate() {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
 
-    return tomorrow.toISOString().split('T')[0] ?? ''; // 2025-02-11
+    return tomorrow;
 }
 
 async function createDailyHoroscopes() {
@@ -36,7 +36,7 @@ async function createDailyHoroscopes() {
     await Promise.all(promises);
 }
 
-async function createAndSaveHoroscope(sign: HoroscopeSignType, date: string) {
+async function createAndSaveHoroscope(sign: HoroscopeSignType, date: Date) {
     const data = await createHoroscopeWithAI(sign, date);
     if (data) {
         await saveDailyHoroscope(sign, date, data);

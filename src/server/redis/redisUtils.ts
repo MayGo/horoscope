@@ -1,3 +1,4 @@
+import { extractDateString } from '~/utils/date.utils';
 import { type HoroscopeSignType } from '~/utils/values';
 
 export function capitalize(str: string): string {
@@ -6,7 +7,7 @@ export function capitalize(str: string): string {
 }
 
 export const getDailyHoroscopeKey = (sign: HoroscopeSignType, date: Date) => {
-    const dateStr = date.toISOString().split('T')[0] ?? '';
+    const dateStr = extractDateString(date);
     const key = `horoscope:${dateStr}:${capitalize(sign)}`;
     return key;
 };
