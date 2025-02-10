@@ -3,7 +3,7 @@ import { auth } from '@clerk/nextjs/server';
 import { flattenValidationErrors } from 'next-safe-action';
 import 'server-only';
 import { testSettingsSchema, type TestSettingsSchema } from '~/validations/testSettings.validation';
-import { actionClient } from '../../lib/safe-action';
+import { actionClient } from '../../utils/safe-action';
 import { createHoroscopeWithAI } from '../ai';
 
 export const generateHoroscopeAction = actionClient

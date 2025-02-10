@@ -5,7 +5,7 @@ import { flattenValidationErrors } from 'next-safe-action';
 import 'server-only';
 import { db } from '~/server/db/db';
 import { userSettings } from '~/server/db/schema';
-import { actionClient } from '../../lib/safe-action';
+import { actionClient } from '../../utils/safe-action';
 import { type UserSettingsSchema, userSettingsSchema } from '../../validations/userSettings.validation';
 
 export const saveUserSettingsAction = actionClient

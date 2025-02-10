@@ -8,9 +8,9 @@
 -   [x] Generate horoscope with open AI based on personalization
 -   [x] Add CRON to generate daily horoscpe to db
 -   [x] Show daily horoscope on home page
--   [ ] Send email to user with horoscope
--   [ ] Redesign daily horoscope to include affirmations and daily insights
+-   [x] Send email to user with horoscope
 -   [ ] Add cron to send horoscope to user daily at configured time
+-   [ ] Redesign daily horoscope to include affirmations and daily insights
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
