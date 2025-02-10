@@ -6,7 +6,8 @@
 -   [x] Add a personalization benefits page
 -   [x] Add a form personalization page
 -   [x] Generate horoscope with open AI based on personalization
--   [ ] Add CRON to generate daily horoscpe to db
+-   [x] Add CRON to generate daily horoscpe to db
+-   [ ] Show daily horoscope on home page
 -   [ ] Send email to user with horoscope
 -   [ ] Add cron to send horoscope to user daily at configured time
 

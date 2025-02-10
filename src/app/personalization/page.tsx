@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, SimpleGrid } from '@chakra-ui/react';
 import { SignedIn, SignedOut } from '@clerk/nextjs';
 import { MessageBox } from '~/components/MessageBox';
-import { HeroItem } from '../_components/HeroItem';
+import { HeroItem } from '../home/_components/HeroItem';
 import UserSettings from './UserSettings';
 
 export default function Personalization() {

@@ -1,6 +1,6 @@
 import { type NextRequest } from 'next/server';
 import { createHoroscopeWithAI } from '~/server/ai';
-import { kv } from '~/server/redis/redisClient';
+import { saveDailyHoroscope } from '~/server/redis/redisQueries';
 import { HoroscopeSigns, type HoroscopeSignType } from '~/utils/values';
 
 export async function POST(request: NextRequest) {
@@ -39,8 +39,7 @@ async function createDailyHoroscopes() {
 async function createAndSaveHoroscope(sign: HoroscopeSignType, date: string) {
     const data = await createHoroscopeWithAI(sign, date);
     if (data) {
-        const key = `horoscope:${date}:${sign}`;
-        await kv.set(key, data);
+        await saveDailyHoroscope(sign, date, data);
     } else {
         console.error('Invalid data from AI');
     }
