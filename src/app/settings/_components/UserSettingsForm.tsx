@@ -70,7 +70,7 @@ export const UserSettingsForm = ({ data = defaultValues }: { data?: UserSettings
     return (
         <FormProvider {...methods}>
             <form ref={formRef} onSubmit={handleSubmit(submitForm)}>
-                <VStack gap={10} maxW="400px">
+                <VStack gap={10} maxW="400px" px={4}>
                     {/* <DisplayServerActionResponse result={saveResult} /> */}
 
                     <Stack gap={4} w="full">

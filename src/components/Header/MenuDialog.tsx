@@ -19,7 +19,7 @@ export const MenuDialog: NextPage = () => {
     return (
         <DialogRoot size="xl">
             <DialogTrigger>
-                <IconButton aria-label="Options" variant="outline" colorPalette="blue" rounded="xl">
+                <IconButton as="span" aria-label="Options" variant="outline" rounded="xl">
                     <IoMenu />
                 </IconButton>
             </DialogTrigger>

@@ -10,7 +10,7 @@ export default function Personalization() {
             <Heading size="4xl" fontWeight="100" textAlign="center" pb={6}>
                 Personalization Benefits
             </Heading>
-            <SimpleGrid columns={2} gap={4}>
+            <SimpleGrid columns={[1, 1, 1, 2]} gap={4}>
                 <HeroItem
                     image="/personalization/birth-chart-analysis.png"
                     heading="Birth Chart Analysis"
