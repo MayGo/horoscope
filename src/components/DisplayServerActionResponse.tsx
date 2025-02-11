@@ -1,4 +1,4 @@
-import { Alert } from '@chakra-ui/react';
+import { MessageBox } from './MessageBox';
 
 type Props = {
     result: {
@@ -9,19 +9,6 @@ type Props = {
         validationErrors?: Record<string, string[] | undefined>;
     };
 };
-
-const MessageBox = ({ type, content }: { type: 'success' | 'error'; content: React.ReactNode }) =>
-    type === 'success' ? (
-        <Alert.Root status="success">
-            <Alert.Indicator />
-            <Alert.Title>{content}</Alert.Title>
-        </Alert.Root>
-    ) : (
-        <Alert.Root status="error">
-            <Alert.Indicator />
-            <Alert.Title>{content}</Alert.Title>
-        </Alert.Root>
-    );
 
 export function DisplayServerActionResponse({ result }: Props) {
     const { serverError, validationErrors } = result;

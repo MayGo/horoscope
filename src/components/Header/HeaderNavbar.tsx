@@ -1,6 +1,7 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { type NextPage } from 'next';
 import { Logo } from './Logo';
+import { MenuDialog } from './MenuDialog';
 import Navlinks from './Navlinks';
 
 export const HeaderNavbar: NextPage = () => {
@@ -13,9 +14,9 @@ export const HeaderNavbar: NextPage = () => {
                     <Navlinks />
                 </Box>
 
-                {/* <Box display={{ base: "flex", md: "none" }}>
-          <MenuDialog />
-        </Box> */}
+                <Box display={{ base: 'flex', md: 'none' }}>
+                    <MenuDialog />
+                </Box>
             </Flex>
         </Box>
     );

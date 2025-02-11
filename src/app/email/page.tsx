@@ -20,7 +20,7 @@ export default async function TestEmailPage() {
                 width="100%"
                 height="800px"
                 style={{ border: '1px solid #ccc', borderRadius: '4px' }}
-                title="Email Preview"
+                content="Email Preview"
             />
         </Box>
     );

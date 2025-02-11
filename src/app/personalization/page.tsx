@@ -1,4 +1,5 @@
 import { Flex, Heading, SimpleGrid } from '@chakra-ui/react';
+import { SignedIn, SignedOut, SignInButton } from '@clerk/nextjs';
 import Link from 'next/link';
 import { Button } from '~/components/ui/button';
 import { HeroItem } from '../home/_components/HeroItem';
@@ -33,9 +34,16 @@ export default function Personalization() {
             </SimpleGrid>
 
             <Flex justifyContent="center" pt={10}>
-                <Link href="/settings" passHref legacyBehavior>
-                    <Button>Personalize Your Horoscope</Button>
-                </Link>
+                <SignedIn>
+                    <Link href="/settings" passHref legacyBehavior>
+                        <Button>Personalize Your Horoscope</Button>
+                    </Link>
+                </SignedIn>
+                <SignedOut>
+                    <SignInButton>
+                        <Button>Sign In to Personalize Your Horoscope</Button>
+                    </SignInButton>
+                </SignedOut>
             </Flex>
         </Flex>
     );

@@ -11,3 +11,8 @@ export const getDailyHoroscopeKey = (sign: HoroscopeSignType, date: Date) => {
     const key = `horoscope:${dateStr}:${capitalize(sign)}`;
     return key;
 };
+
+export const getMyDailyHoroscopeKey = (userId: string) => {
+    const key = `user_horoscope:${userId}`;
+    return key;
+};

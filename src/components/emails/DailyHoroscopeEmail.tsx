@@ -1,5 +1,5 @@
 import { Body, Container, Head, Hr, Html, Img, Link, Preview, Section, Text } from '@react-email/components';
-import { DailyInsightSchema, HoroscopeResultsSchema } from '~/validations/horoscopeResults.validation';
+import type { DailyInsightSchema, HoroscopeResultsSchema } from '~/validations/horoscopeResults.validation';
 import { mainGray } from '../theme/theme.utils';
 
 const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '';
@@ -73,42 +73,42 @@ const logo = {
     display: 'flex',
     padding: '20px 30px',
     justifyContent: 'center'
-};
+} as const;
 
 const subTitle = {
     fontSize: '18px',
     fontWeight: 'bold'
-};
+} as const;
 
 const text = {
     fontSize: '16px',
     lineHeight: '1.5'
-};
+} as const;
 
 const footerText = {
     fontSize: '12px',
     color: '#6C6969',
-    textAlign: 'right' as 'right'
-};
+    textAlign: 'right'
+} as const;
 
 const divider = {};
 
 const listItemStyle = {
     padding: '10px 0'
-};
+} as const;
 
 const DailyInsightsTable = ({ dailyInsights }: { dailyInsights: DailyInsightSchema[] }) => {
     const tableStyle = {
         maxWidth: '550px',
-        borderCollapse: 'collapse' as 'collapse',
+        borderCollapse: 'collapse',
         marginTop: '10px'
-    };
+    } as const;
 
     const cellStyle = {
         border: '1px dashed #ccc',
         padding: '20px 14px',
-        textAlign: 'center' as 'center'
-    };
+        textAlign: 'center'
+    } as const;
 
     const insightNameStyle = {
         fontSize: '14px',

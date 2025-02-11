@@ -20,7 +20,7 @@ export default function Navlinks() {
             <SignedIn>
                 <HStack gap={4}>
                     <Link href="/my-horoscope" passHref legacyBehavior>
-                        <Button variant="outline">My Horoscope</Button>
+                        <Button variant="ghost">My Horoscope</Button>
                     </Link>
                     <Flex boxSize={11} borderRadius="full" bg="yellow.100" alignItems="center" justifyContent="center">
                         <UserButton />

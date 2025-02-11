@@ -12,7 +12,7 @@ export const SimpleCheckbox = ({ label, name }: { label: string; name: string })
             render={({ field }) => (
                 <CheckboxBase
                     name={field.name}
-                    checked={field.value}
+                    checked={field.value as boolean}
                     onCheckedChange={(details) => {
                         field.onChange(details.checked);
                     }}
