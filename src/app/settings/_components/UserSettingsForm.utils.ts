@@ -17,7 +17,10 @@ export const horoscopeSignsOptions = Object.values(HoroscopeSigns).map((sign) =>
     value: sign as string
 }));
 
-export const timeOfDaysOptions = Object.values(TimeOfDay).map((time) => ({
-    label: time as string,
-    value: time as string
-}));
+export const timeOfDaysOptions = [
+    { label: '-', value: '' },
+    ...Object.values(TimeOfDay).map((time) => ({
+        label: time as string,
+        value: time as string
+    }))
+];

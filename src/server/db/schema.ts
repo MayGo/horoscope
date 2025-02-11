@@ -12,6 +12,7 @@ export const userSettings = pgTable('user_settings', {
     dateOfBirth: varchar('date_of_birth', { length: 255 }).notNull().default(''),
     timeOfBirth: varchar('time_of_birth', { length: 5 }).notNull().default(TimeOfDay.T00_00),
     isAdmin: boolean('is_admin').notNull().default(false),
+    sendEmailAllowed: boolean('send_email_allowed').notNull().default(false),
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at').notNull().defaultNow()
 });

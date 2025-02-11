@@ -1,4 +1,5 @@
 import { render } from '@react-email/components';
+import { eq } from 'drizzle-orm';
 import { type NextRequest } from 'next/server';
 import DailyHoroscopeEmail from '~/components/emails/DailyHoroscopeEmail';
 import { createAndSaveHoroscope } from '~/server/ai';
@@ -46,7 +47,7 @@ async function createDailyHoroscopes() {
 }
 
 async function sendDailyHoroscopeEmails() {
-    const users = await db.select().from(userSettings);
+    const users = await db.select().from(userSettings).where(eq(userSettings.sendEmailAllowed, true));
 
     const promises = users.map(async (user) => {
         const clerkUser = await clerkClient.users.getUser(user.userId);
@@ -75,5 +76,9 @@ async function sendDailyHoroscopeEmails() {
         return null;
     });
 
+    console.info(`Sending emails to ${promises.length} users`);
+
     await Promise.all(promises);
+
+    console.info(`Emails sent to ${promises.length} users`);
 }
