@@ -1,10 +1,17 @@
 import { Box, Heading } from '@chakra-ui/react';
 import { render } from '@react-email/components';
 import DailyHoroscopeEmail from '~/components/emails/DailyHoroscopeEmail';
+import { UnauthorizedMessage } from '~/components/UnauthorizedMessage';
+import { checkIsAdmin } from '~/server/clerk/clerkQueries';
 import { findDailyHoroscope } from '~/server/redis/redisQueries';
 import { HoroscopeSigns } from '~/utils/values';
 
 export default async function TestEmailPage() {
+    const isAdmin = await checkIsAdmin();
+
+    if (!isAdmin) {
+        return <UnauthorizedMessage />;
+    }
     const sign = HoroscopeSigns.Aries;
     const date = new Date();
     const name = 'John Doe';

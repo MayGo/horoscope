@@ -16,6 +16,11 @@ export const getMySettings = async () => {
         throw new Error('User settings not found');
     }
 
+    if (settings.length === 0) {
+        console.info('User settings not found');
+        return null;
+    }
+
     return userSettingsSchema.parse(settings[0]);
 };
 

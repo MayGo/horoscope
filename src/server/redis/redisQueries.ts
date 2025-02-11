@@ -7,9 +7,9 @@ import { getDailyHoroscopeKey, getMyDailyHoroscopeKey } from './redisUtils';
 
 export const findDailyHoroscope = async (sign: HoroscopeSignType, date: Date) => {
     const key = getDailyHoroscopeKey(sign, date);
-    console.log(`Getting daily horoscope for ${key} from redis`);
+    // console.log(`Getting daily horoscope for ${key} from redis`);
     const horoscope = await kv.get(key);
-    console.log('Retrieved horoscope:', horoscope);
+    //  console.log('Retrieved horoscope:', horoscope);
     return horoscope as HoroscopeResultsSchema;
 };
 

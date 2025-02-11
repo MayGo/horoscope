@@ -1,6 +1,7 @@
 import { Box, Flex, Heading, VStack } from '@chakra-ui/react';
 import { SignedIn } from '@clerk/nextjs';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { MessageBox } from '~/components/MessageBox';
 import { Button } from '~/components/ui/button';
 import { getMySettings } from '~/server/db/queries';
@@ -9,8 +10,13 @@ import Horoscope from './Horoscope';
 
 export default async function Personalization() {
     const mySettings = await getMySettings();
-    const dailyHoroscope = await findMyDailyHoroscope();
 
+    if (!mySettings?.sign) {
+        console.info('No settings found. Redirecting to settings.');
+        redirect('/settings');
+    }
+
+    const dailyHoroscope = await findMyDailyHoroscope();
     const showWarning = dailyHoroscope?.sign !== mySettings.sign;
 
     return (
@@ -24,7 +30,7 @@ export default async function Personalization() {
                     <Box mb={6}>
                         <MessageBox
                             type="warning"
-                            content={`Your horoscope is not up to date. New horoscope is generated for ${mySettings.sign} tomorrow!`}
+                            content={`Your horoscope is not up to date. New horoscope is generated for ${mySettings?.sign} tomorrow!`}
                         />
                     </Box>
                 )}
