@@ -1,8 +1,7 @@
-import { Box, Flex, Heading, SimpleGrid } from '@chakra-ui/react';
-import { SignedIn, SignedOut } from '@clerk/nextjs';
-import { MessageBox } from '~/components/MessageBox';
+import { Flex, Heading, SimpleGrid } from '@chakra-ui/react';
+import Link from 'next/link';
+import { Button } from '~/components/ui/button';
 import { HeroItem } from '../home/_components/HeroItem';
-import UserSettings from './UserSettings';
 
 export default function Personalization() {
     return (
@@ -32,19 +31,12 @@ export default function Personalization() {
                     description="Factoring in current astrological transits and how they specifically affect the individual"
                 />
             </SimpleGrid>
-            <SignedOut>
-                <Box pt={10}>
-                    <MessageBox type="warning" content="Please sign in to personalize your horoscope" />
-                </Box>
-            </SignedOut>
-            <SignedIn>
-                <>
-                    <Heading size="4xl" fontWeight="100" textAlign="center" pb={6} pt={10}>
-                        Personalization Settings
-                    </Heading>
-                    <UserSettings />
-                </>
-            </SignedIn>
+
+            <Flex justifyContent="center" pt={10}>
+                <Link href="/settings" passHref legacyBehavior>
+                    <Button>Personalize Your Horoscope</Button>
+                </Link>
+            </Flex>
         </Flex>
     );
 }

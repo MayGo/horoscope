@@ -21,10 +21,17 @@ function createScheduledAt(time?: string) {
     date.setHours(hours);
     date.setMinutes(minutes);
 
+    if (date < new Date()) {
+        console.log('Date is in the past, returning undefined');
+        return undefined;
+    }
+
     return date.toISOString();
 }
 
 export const sendEmail = async (to: string, subject: string, html: string, time?: string) => {
+    console.log(`Sending email to ${to} at ${createScheduledAt(time)}`);
+
     await resend.emails.send({
         from: env.RESEND_FROM_EMAIL,
         to: to,

@@ -9,11 +9,12 @@ import { Button } from '~/components/ui/button';
 import { SimpleSelect } from '~/components/ui/SimpleSelect';
 import { toaster } from '~/components/ui/Toaster';
 import { generateHoroscopeAction } from '~/server/actions/generateHoroscopeAction';
-import { type HoroscopeResultSchema } from '~/utils/aiTexts';
 import { HoroscopeSigns } from '~/utils/values';
+import { type HoroscopeResultsSchema } from '~/validations/horoscopeResults.validation';
 import { testSettingsSchema, type TestSettingsSchema } from '~/validations/testSettings.validation';
-import { InputLabel } from '../personalization/InputLabel';
-import { horoscopeSignsOptions } from '../personalization/UserSettingsForm.utils';
+
+import { InputLabel } from '~/components/InputLabel';
+import { horoscopeSignsOptions } from '../settings/_components/UserSettingsForm.utils';
 import { TestResult } from './TestResult';
 
 const defaultValues = {
@@ -22,7 +23,7 @@ const defaultValues = {
 };
 
 export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettingsSchema }) => {
-    const [resultObject, setResultObject] = useState<HoroscopeResultSchema | null>(null);
+    const [resultObject, setResultObject] = useState<HoroscopeResultsSchema | null>(null);
     const formRef = useRef<HTMLFormElement>(null);
 
     const methods = useForm<TestSettingsSchema>({
@@ -36,7 +37,7 @@ export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettings
     const { register, handleSubmit } = methods;
 
     const { execute: getHoroscope, isPending: isSaving } = useAction(generateHoroscopeAction, {
-        onSuccess({ data }: { data?: HoroscopeResultSchema }) {
+        onSuccess({ data }: { data?: HoroscopeResultsSchema }) {
             if (data) {
                 console.log('data', data);
                 toaster.success({
@@ -69,7 +70,7 @@ export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettings
                                 <SimpleSelect items={horoscopeSignsOptions} label="Sign" name="sign" />
                             </InputLabel>
 
-                            <InputLabel label="Date of Birth" name="date">
+                            <InputLabel label="Date" name="date">
                                 <Input type="date" {...register('date')} />
                             </InputLabel>
                         </Stack>
