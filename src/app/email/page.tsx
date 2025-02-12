@@ -1,9 +1,9 @@
-import { Button, Heading, VStack } from '@chakra-ui/react';
+import { Heading, VStack } from '@chakra-ui/react';
 import { render } from '@react-email/components';
+import { SubmitEmailForm } from '~/components/buttons/SubmitEmailForm';
 import DailyHoroscopeEmail from '~/components/emails/DailyHoroscopeEmail';
 import { UnauthorizedMessage } from '~/components/UnauthorizedMessage';
 import { checkIsAdmin } from '~/server/clerk/clerkQueries';
-import { sendTestEmail } from '~/server/email/resend';
 import { findTodaysDailyHoroscope } from '~/server/redis/redisQueries';
 import { HoroscopeSigns } from '~/utils/values';
 
@@ -23,15 +23,7 @@ export default async function TestEmailPage() {
         <VStack gap={6} p={6}>
             <Heading as="h1">Testing Emails</Heading>
 
-            <form
-                action={async () => {
-                    'use server';
-
-                    await sendTestEmail();
-                }}
-            >
-                <Button type="submit">Send Email</Button>
-            </form>
+            <SubmitEmailForm />
 
             <iframe
                 srcDoc={emailHtml}

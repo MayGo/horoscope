@@ -20,8 +20,8 @@ export default function DailyHoroscopeEmail({
             </Preview>
             <Body style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#f9f9f9', color: mainGray }}>
                 <Container style={{ padding: '20px', backgroundColor: '#ffffff', borderRadius: '8px' }}>
-                    <Section style={logo}>
-                        <Img width={48} src={`${baseUrl}/horoscope-icon.png`} />
+                    <Section style={imageSection}>
+                        <Img width={48} height={48} src={`${baseUrl}/horoscope-icon.png`} />
                     </Section>
                     <Section>
                         <Text style={text}>Hey {name},</Text>
@@ -70,11 +70,11 @@ export default function DailyHoroscopeEmail({
     );
 }
 
-const logo = {
+const imageSection = {
     display: 'flex',
-    padding: '20px 30px',
-    justifyContent: 'center',
-    alignItems: 'center'
+    padding: '20px 0',
+    alignItems: 'center',
+    justifyContent: 'center'
 } as const;
 
 const subTitle = {
