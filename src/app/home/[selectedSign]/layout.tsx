@@ -14,8 +14,8 @@ export default async function HomeLayout({
         <Flex flexDirection="column" gap={6} py={6}>
             <Hero />
             <Separator my={6} />
-            <Flex flexDirection={['column', 'column', 'column', 'row']} gap={8}>
-                <SimpleGrid columns={[2, 3, 4, 4]} gap={2} flex={2}>
+            <Flex flexDirection={['column']} gap={8}>
+                <SimpleGrid columns={[2, 4, 6, 6]} gap={2} flex={2}>
                     {signList.map((sign) => (
                         <SignItem
                             key={sign.name}

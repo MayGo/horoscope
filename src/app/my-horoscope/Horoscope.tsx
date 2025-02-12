@@ -1,12 +1,17 @@
-import { Box, Heading, List, ListItem, SimpleGrid, Text, VStack } from '@chakra-ui/react';
+import { Box, Flex, Heading, List, ListItem, SimpleGrid, Text, VStack } from '@chakra-ui/react';
 import type { DailyInsightSchema, HoroscopeResultsSchema } from '~/validations/horoscopeResults.validation';
 
 export default function Horoscope({ dailyHoroscope }: { dailyHoroscope: HoroscopeResultsSchema }) {
     return (
         <VStack gap={6} alignItems="flex-start">
-            <Text fontSize="md">
-                For<Text as="b"> {dailyHoroscope.sign}</Text> on <Text as="b">{dailyHoroscope.date}</Text>:
-            </Text>
+            <Flex justifyContent="space-between" justifyItems="center" alignItems="baseline" w="full">
+                <Heading size="3xl" textTransform="capitalize">
+                    {dailyHoroscope.sign}
+                </Heading>
+                <Text fontSize="md" fontWeight="light">
+                    {dailyHoroscope.date}
+                </Text>
+            </Flex>
 
             <List.Root gap={4}>
                 {dailyHoroscope.horoscopes.map((item) => (
