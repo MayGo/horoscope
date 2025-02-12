@@ -3,7 +3,7 @@ import { type HoroscopeSignType } from '~/utils/values';
 import { type HoroscopeResultsSchema } from '~/validations/horoscopeResults.validation';
 import { createAndSaveUserDailyHoroscope } from '../openai/ai';
 import { kv } from './redisClient';
-import { getDailyHoroscopeKey, getMyDailyHoroscopeKey } from './redisUtils';
+import { getDailyHoroscopeKey, getUserDailyHoroscopeKey } from './redisUtils';
 
 export const findTodaysDailyHoroscope = async (sign: HoroscopeSignType) => {
     const key = getDailyHoroscopeKey(sign, new Date());
@@ -18,6 +18,12 @@ export const saveDailyHoroscope = async (sign: HoroscopeSignType, date: Date, ho
     await kv.set(key, horoscope);
 };
 
+export const findUserDailyHoroscope = async (userId: string) => {
+    const key = getUserDailyHoroscopeKey(userId);
+    const horoscope = await kv.get(key);
+    return horoscope as HoroscopeResultsSchema;
+};
+
 export const findMyDailyHoroscope = async () => {
     const authUser = await auth();
 
@@ -25,8 +31,7 @@ export const findMyDailyHoroscope = async () => {
         throw new Error('User not authenticated');
     }
 
-    const key = getMyDailyHoroscopeKey(authUser.userId);
-    const horoscope = await kv.get(key);
+    const horoscope = await findUserDailyHoroscope(authUser.userId);
 
     if (!horoscope) {
         // generate the initial horoscope
@@ -40,10 +45,10 @@ export const findMyDailyHoroscope = async () => {
         return newHoroscope;
     }
 
-    return horoscope as HoroscopeResultsSchema;
+    return horoscope;
 };
 
 export const saveUserDailyHoroscope = async (userId: string, horoscope: HoroscopeResultsSchema) => {
-    const key = getMyDailyHoroscopeKey(userId);
+    const key = getUserDailyHoroscopeKey(userId);
     await kv.set(key, horoscope);
 };

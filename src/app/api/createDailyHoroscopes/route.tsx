@@ -7,6 +7,7 @@ import { db } from '~/server/db/db';
 import { userSettings } from '~/server/db/schema';
 import { sendEmail } from '~/server/email/resend';
 import { createAndSaveDailyHoroscope, createAndSaveUserDailyHoroscope } from '~/server/openai/ai';
+import { findUserDailyHoroscope } from '~/server/redis/redisQueries';
 import { extractDateString } from '~/utils/date.utils';
 import { HoroscopeSigns } from '~/utils/values';
 
@@ -22,6 +23,8 @@ export async function GET(request: NextRequest) {
     console.log('CRON:Creating daily horoscopes');
 
     await createDailyHoroscopes();
+
+    await generateAllUserHoroscopes();
 
     await sendDailyHoroscopeEmails();
 
@@ -45,6 +48,17 @@ async function createDailyHoroscopes() {
     await Promise.all(promises);
 }
 
+async function generateAllUserHoroscopes() {
+    // refactor this if we get more than 1000 users
+    const allUsers = await db.select().from(userSettings);
+
+    console.log(`Generating horoscopes for ${allUsers.length} users`);
+
+    await Promise.all(allUsers.map((user) => createAndSaveUserDailyHoroscope(user.userId)));
+
+    console.log('Completed user horoscope generation');
+}
+
 async function sendDailyHoroscopeEmails() {
     const users = await db.select().from(userSettings).where(eq(userSettings.sendEmailAllowed, true));
 
@@ -52,26 +66,24 @@ async function sendDailyHoroscopeEmails() {
         const subject = `Daily Horoscope for ${extractDateString(new Date())}`;
         const email = await getUserEmail(user.userId);
 
-        if (email) {
-            const dailyHoroscope = await createAndSaveUserDailyHoroscope(user.userId);
-            if (dailyHoroscope) {
-                const emailHtml = await render(
-                    <DailyHoroscopeEmail name={user.name} dailyHoroscope={dailyHoroscope} />
-                );
-                await sendEmail(email, subject, emailHtml, user.emailTime);
-            } else {
-                console.error('No daily horoscope found for user', user.userId);
-            }
-        } else {
+        if (!email) {
             console.error('No email found for user', user.userId);
+            return null;
+        }
+
+        const dailyHoroscope = await findUserDailyHoroscope(user.userId);
+
+        if (dailyHoroscope) {
+            const emailHtml = await render(<DailyHoroscopeEmail name={user.name} dailyHoroscope={dailyHoroscope} />);
+            await sendEmail(email, subject, emailHtml, user.emailTime);
+        } else {
+            console.error('No daily horoscope found for user', user.userId);
         }
 
         return null;
     });
 
     console.info(`Sending emails to ${promises.length} users`);
-
     await Promise.all(promises);
-
     console.info(`Emails sent to ${promises.length} users`);
 }
