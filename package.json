@@ -30,6 +30,7 @@
         "@trpc/react-query": "^11.0.0-rc.446",
         "@trpc/server": "^11.0.0-rc.446",
         "@upstash/redis": "^1.34.4",
+        "@vercel/analytics": "^1.5.0",
         "ai": "^4.1.27",
         "drizzle-orm": "^0.39.2",
         "geist": "^1.3.0",

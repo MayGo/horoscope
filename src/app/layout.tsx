@@ -7,6 +7,7 @@ import { HeaderNavbar } from '~/components/Header/HeaderNavbar';
 import { ThemeProvider } from '~/components/theme/ThemeProvider';
 
 import { ClerkProvider } from '@clerk/nextjs';
+import { Analytics } from '@vercel/analytics/react';
 import { M_PLUS_Rounded_1c, Roboto } from 'next/font/google';
 import { Suspense } from 'react';
 import { Toaster } from '~/components/ui/Toaster';
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                             <Toaster />
                         </Suspense>
                     </ThemeProvider>
+                    <Analytics />
                 </body>
             </html>
         </ClerkProvider>
