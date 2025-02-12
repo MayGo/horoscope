@@ -33,7 +33,7 @@ export default function DailyHoroscopeEmail({
                     </Section>
                     <Section>
                         <Text style={text}>
-                            <ul>
+                            <ul style={listStyle}>
                                 {dailyHoroscope.horoscopes.map((item, index) => (
                                     <li key={index} style={listItemStyle}>
                                         {item}
@@ -45,7 +45,7 @@ export default function DailyHoroscopeEmail({
 
                     <Section>
                         <Text style={subTitle}>Affirmations</Text>
-                        <ul>
+                        <ul style={listStyle}>
                             {dailyHoroscope.affirmations.map((affirmation, index) => (
                                 <li key={index} style={listItemStyle}>
                                     {affirmation}
@@ -95,7 +95,13 @@ const footerText = {
 const divider = {};
 
 const listItemStyle = {
-    padding: '10px 0'
+    padding: '8px 0',
+    margin: '0'
+} as const;
+
+const listStyle = {
+    padding: '0 16px',
+    margin: '0'
 } as const;
 
 const DailyInsightsTable = ({ dailyInsights }: { dailyInsights: DailyInsightSchema[] }) => {
