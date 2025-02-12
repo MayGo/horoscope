@@ -43,7 +43,7 @@ const DailyInsights = ({ dailyInsights }: { dailyInsights: DailyInsightSchema[] 
     return (
         <SimpleGrid columns={[2, 3, 3]} gap={4} maxW="550px" mt={2}>
             {dailyInsights.map((insight, index) => (
-                <Box key={index} border="1px dashed" borderColor="gray.200" p={4} textAlign="center">
+                <Box key={index} border="1px dashed" borderColor="gray.200" p={4} textAlign="center" borderRadius="l1">
                     {insight && (
                         <>
                             <Text fontSize="sm" fontWeight="light" mb={3}>

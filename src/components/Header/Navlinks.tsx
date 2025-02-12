@@ -3,6 +3,7 @@ import { Flex, HStack, SimpleGrid } from '@chakra-ui/react';
 import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import Link from 'next/link';
 import { Button } from '../ui/button';
+import AdminLinks from './AdminLinks';
 
 export default function Navlinks() {
     return (
@@ -19,8 +20,11 @@ export default function Navlinks() {
             </SignedOut>
             <SignedIn>
                 <HStack gap={4}>
+                    <AdminLinks />
                     <Link href="/my-horoscope" passHref legacyBehavior>
-                        <Button variant="ghost">My Horoscope</Button>
+                        <Button variant="ghost" color="black">
+                            My Horoscope
+                        </Button>
                     </Link>
                     <Flex boxSize={11} borderRadius="full" bg="yellow.100" alignItems="center" justifyContent="center">
                         <UserButton />

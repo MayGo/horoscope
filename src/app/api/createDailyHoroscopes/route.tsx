@@ -11,7 +11,7 @@ import { findTodaysDailyHoroscope } from '~/server/redis/redisQueries';
 import { extractDateString } from '~/utils/date.utils';
 import { HoroscopeSigns, type HoroscopeSignType } from '~/utils/values';
 
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest) {
     const authHeader = request.headers.get('authorization');
     if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
         console.log('Unauthorized request for creating daily horoscopes');
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
         });
     }
 
-    console.log('Creating daily horoscopes');
+    console.log('CRON:Creating daily horoscopes');
 
     await createDailyHoroscopes();
 

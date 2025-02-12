@@ -11,7 +11,7 @@ export default async function Personalization() {
     await wait();
     return (
         <Flex flexDirection="column" py={6} pt={10}>
-            <Heading size="4xl" fontWeight="100" textAlign="center" pb={6}>
+            <Heading size="4xl" fontWeight="100" textAlign="center" pb={10}>
                 Personalization Benefits
             </Heading>
             <SimpleGrid columns={[1, 1, 1, 2]} gap={4}>

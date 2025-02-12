@@ -75,7 +75,7 @@ export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettings
                             </InputLabel>
                         </Stack>
                         <Button type="submit" disabled={isSaving} variant="solid" colorScheme="yellow">
-                            {isSaving ? 'Generating...' : 'Generate Horoscope'}
+                            {isSaving ? 'Generating...' : 'Generate & Save Horoscope'}
                         </Button>
                     </VStack>
                 </form>

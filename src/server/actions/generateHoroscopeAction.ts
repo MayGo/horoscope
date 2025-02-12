@@ -2,6 +2,7 @@
 import { auth } from '@clerk/nextjs/server';
 import { flattenValidationErrors } from 'next-safe-action';
 import 'server-only';
+import { HoroscopeSigns } from '~/utils/values';
 import { testSettingsSchema, type TestSettingsSchema } from '~/validations/testSettings.validation';
 import { actionClient } from '../../utils/safe-action';
 import { createAndSaveDailyHoroscope } from '../openai/ai';
@@ -17,11 +18,24 @@ export const generateHoroscopeAction = actionClient
             throw new Error('User not authenticated');
         }
 
-        const result = await createAndSaveDailyHoroscope(parsedInput.sign, new Date(parsedInput.date));
+        const date = new Date(parsedInput.date);
 
-        if (!result) {
-            throw new Error('Failed to generate horoscope');
+        if (parsedInput.sign) {
+            const result = await createAndSaveDailyHoroscope(parsedInput.sign, date);
+
+            if (!result) {
+                throw new Error('Failed to generate horoscope');
+            }
+
+            return result;
+        } else {
+            console.log('Generating horoscopes for all signs');
+            const promises = Object.values(HoroscopeSigns).map(async (sign) => {
+                return createAndSaveDailyHoroscope(sign, date);
+            });
+
+            const results = await Promise.all(promises);
+
+            return results[0];
         }
-
-        return result;
     });
