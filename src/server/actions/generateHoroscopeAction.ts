@@ -36,6 +36,16 @@ export const generateHoroscopeAction = actionClient
 
             const results = await Promise.all(promises);
 
-            return results[0];
+            if (results.length === 0) {
+                throw new Error('Failed to generate horoscope');
+            }
+
+            const result = results[0];
+
+            if (!result) {
+                throw new Error('Failed to generate horoscope');
+            }
+
+            return result;
         }
     });
