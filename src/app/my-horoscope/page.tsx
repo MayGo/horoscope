@@ -10,10 +10,6 @@ import { capitalize } from '~/utils/string.utils';
 import Horoscope from './Horoscope';
 
 export default async function Personalization() {
-    const wait = async () => {
-        await new Promise((resolve) => setTimeout(resolve, 5000));
-    };
-    await wait();
     const mySettings = await getMySettings();
 
     if (!mySettings?.sign) {

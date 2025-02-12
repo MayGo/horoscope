@@ -5,10 +5,6 @@ import { Button } from '~/components/ui/button';
 import { HeroItem } from '../home/_components/HeroItem';
 
 export default async function Personalization() {
-    const wait = async () => {
-        await new Promise((resolve) => setTimeout(resolve, 5000));
-    };
-    await wait();
     return (
         <Flex flexDirection="column" py={6} pt={10}>
             <Heading size="4xl" fontWeight="100" textAlign="center" pb={10}>
