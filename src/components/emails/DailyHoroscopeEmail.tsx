@@ -1,8 +1,9 @@
 import { Body, Container, Head, Hr, Html, Img, Link, Preview, Section, Text } from '@react-email/components';
+import { getURL } from '~/utils/helpers';
 import type { DailyInsightSchema, HoroscopeResultsSchema } from '~/validations/horoscopeResults.validation';
 import { mainGray } from '../theme/theme.utils';
 
-const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '';
+const baseUrl = getURL();
 
 export default function DailyHoroscopeEmail({
     name,

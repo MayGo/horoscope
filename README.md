@@ -11,7 +11,7 @@
 - [x] Send email to user with horoscope
 - [x] Add cron to send horoscope to user daily at configured time
 - [x] Add my horoscope page
-- [ ] Add Loaders
+- [x] Add Loaders
 - [ ] Redesign daily horoscope to include affirmations and daily insights?
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.

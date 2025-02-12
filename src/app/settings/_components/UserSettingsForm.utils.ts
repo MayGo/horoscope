@@ -13,10 +13,13 @@ export const horoscopeLengthsOptions = Object.values(HoroscopeLength).map((len) 
     value: len as string
 }));
 
-export const horoscopeSignsOptions = Object.values(HoroscopeSigns).map((sign) => ({
-    label: capitalize(sign as string),
-    value: sign as string
-}));
+export const horoscopeSignsOptions = [
+    { label: '-', value: '' },
+    ...Object.values(HoroscopeSigns).map((sign) => ({
+        label: capitalize(sign as string),
+        value: sign as string
+    }))
+];
 
 export const timeOfDaysOptions = [
     { label: '-', value: '' },

@@ -19,7 +19,7 @@ import { TestResult } from './TestResult';
 
 const defaultValues = {
     sign: HoroscopeSigns.aries,
-    date: '2025-02-09'
+    date: new Date().toISOString().split('T')[0] ?? ''
 };
 
 export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettingsSchema }) => {

@@ -6,10 +6,9 @@ import { clerkClient } from '~/server/clerk/clerkClient';
 import { db } from '~/server/db/db';
 import { userSettings } from '~/server/db/schema';
 import { sendEmail } from '~/server/email/resend';
-import { createAndSaveDailyHoroscope } from '~/server/openai/ai';
-import { findTodaysDailyHoroscope } from '~/server/redis/redisQueries';
+import { createAndSaveDailyHoroscope, createAndSaveUserDailyHoroscope } from '~/server/openai/ai';
 import { extractDateString } from '~/utils/date.utils';
-import { HoroscopeSigns, type HoroscopeSignType } from '~/utils/values';
+import { HoroscopeSigns } from '~/utils/values';
 
 export async function GET(request: NextRequest) {
     const authHeader = request.headers.get('authorization');
@@ -56,7 +55,7 @@ async function sendDailyHoroscopeEmails() {
         if (clerkUser?.emailAddresses?.length > 0) {
             const email = clerkUser.emailAddresses[0]?.emailAddress;
             if (email) {
-                const dailyHoroscope = await findTodaysDailyHoroscope(user.sign as HoroscopeSignType);
+                const dailyHoroscope = await createAndSaveUserDailyHoroscope(user.userId);
                 if (dailyHoroscope) {
                     const emailHtml = await render(
                         <DailyHoroscopeEmail name={user.name} dailyHoroscope={dailyHoroscope} />
