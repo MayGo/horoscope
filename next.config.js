@@ -12,8 +12,13 @@ const config = {
     async redirects() {
         return [
             {
+                source: '/home',
+                destination: '/home/_',
+                permanent: true
+            },
+            {
                 source: '/',
-                destination: '/home',
+                destination: '/home/_',
                 permanent: true
             }
         ];

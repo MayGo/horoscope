@@ -18,7 +18,7 @@ import { horoscopeSignsOptions } from '../settings/_components/UserSettingsForm.
 import { TestResult } from './TestResult';
 
 const defaultValues = {
-    sign: HoroscopeSigns.Aries,
+    sign: HoroscopeSigns.aries,
     date: '2025-02-09'
 };
 

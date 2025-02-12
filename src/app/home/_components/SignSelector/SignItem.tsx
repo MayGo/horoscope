@@ -24,7 +24,7 @@ export function SignItem({ name, dateRange, image, isSelected }: SignItemProps) 
                 <Box>
                     <Image src={image} alt={name} w="80px" h="80px" />
                 </Box>
-                <Text fontSize="xl" fontWeight="bold">
+                <Text fontSize="xl" fontWeight="bold" textTransform="capitalize">
                     {name}
                 </Text>
                 <Text fontSize="xx-small" fontWeight="medium">

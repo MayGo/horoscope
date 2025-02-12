@@ -23,7 +23,7 @@ const defaultValues = {
     emailTime: TimeOfDay.T09_00,
     horoscopeAge: HoroscopeAge.Today,
     horoscopeLength: HoroscopeLength.Short,
-    sign: HoroscopeSigns.Aries,
+    sign: HoroscopeSigns.aries,
     countryOfBirth: '',
     dateOfBirth: '',
     timeOfBirth: undefined,
@@ -69,8 +69,8 @@ export const UserSettingsForm = ({ data = defaultValues }: { data?: UserSettings
 
     return (
         <FormProvider {...methods}>
-            <form ref={formRef} onSubmit={handleSubmit(submitForm)}>
-                <VStack gap={10} maxW="400px" px={4}>
+            <form ref={formRef} onSubmit={handleSubmit(submitForm)} style={{ width: '100%' }}>
+                <VStack gap={10} w="full" px={4}>
                     {/* <DisplayServerActionResponse result={saveResult} /> */}
 
                     <Stack gap={4} w="full">

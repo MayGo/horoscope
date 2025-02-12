@@ -1,9 +1,14 @@
-import { type HoroscopeSignType } from '~/utils/values';
-import { SignSelector } from '../_components/SignSelector/SignSelector';
+import { Image } from '@chakra-ui/react';
+import { HoroscopeSigns, type HoroscopeSignType } from '~/utils/values';
+import { SelectedSign } from '../_components/SignSelector/SelectedSign';
 
-export default async function SelectedSign({ params }: { params: Promise<{ selectedSign: string }> }) {
+export default async function SelectedSignPage({ params }: { params: Promise<{ selectedSign: string }> }) {
     const selectedSign = (await params).selectedSign;
-    console.log('selectedSign........', selectedSign);
+    console.log('selectedSign in page........', selectedSign);
 
-    return <SignSelector selectedSign={selectedSign as HoroscopeSignType} />;
+    if (!Object.values(HoroscopeSigns).includes(selectedSign as HoroscopeSignType)) {
+        return <Image src="/astrology.png" alt="placeholder" />;
+    }
+
+    return <SelectedSign name={selectedSign as HoroscopeSignType} />;
 }

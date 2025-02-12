@@ -1,5 +1,5 @@
 import { boolean, pgTable, timestamp, varchar } from 'drizzle-orm/pg-core';
-import { HoroscopeAge, HoroscopeLength, TimeOfDay } from '~/utils/values';
+import { HoroscopeAge, HoroscopeLength, HoroscopeSigns, TimeOfDay } from '~/utils/values';
 
 export const userSettings = pgTable('user_settings', {
     userId: varchar('user_id', { length: 255 }).notNull().primaryKey(),
@@ -7,7 +7,7 @@ export const userSettings = pgTable('user_settings', {
     emailTime: varchar('email_time', { length: 5 }).notNull().default(TimeOfDay.T00_00),
     horoscopeAge: varchar('horoscope_age', { length: 255 }).notNull().default(HoroscopeAge.Today),
     horoscopeLength: varchar('horoscope_length', { length: 255 }).notNull().default(HoroscopeLength.Short),
-    sign: varchar('sign', { length: 255 }).notNull().default('Aries'),
+    sign: varchar('sign', { length: 255 }).notNull().default(HoroscopeSigns.aries),
     countryOfBirth: varchar('country_of_birth', { length: 255 }).notNull().default(''),
     dateOfBirth: varchar('date_of_birth', { length: 255 }).notNull().default(''),
     timeOfBirth: varchar('time_of_birth', { length: 5 }).notNull().default(TimeOfDay.T00_00),

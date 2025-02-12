@@ -43,18 +43,18 @@ export const TimeOfDay = {
 export type TimeOfDayType = (typeof TimeOfDay)[keyof typeof TimeOfDay];
 
 export const HoroscopeSigns = {
-    Aries: 'Aries',
-    Taurus: 'Taurus',
-    Gemini: 'Gemini',
-    Cancer: 'Cancer',
-    Leo: 'Leo',
-    Virgo: 'Virgo',
-    Libra: 'Libra',
-    Scorpio: 'Scorpio',
-    Sagittarius: 'Sagittarius',
-    Capricorn: 'Capricorn',
-    Aquarius: 'Aquarius',
-    Pisces: 'Pisces'
+    aries: 'aries',
+    taurus: 'taurus',
+    gemini: 'gemini',
+    cancer: 'cancer',
+    leo: 'leo',
+    virgo: 'virgo',
+    libra: 'libra',
+    scorpio: 'scorpio',
+    sagittarius: 'sagittarius',
+    capricorn: 'capricorn',
+    aquarius: 'aquarius',
+    pisces: 'pisces'
 } as const;
 
 export type HoroscopeSignType = (typeof HoroscopeSigns)[keyof typeof HoroscopeSigns];

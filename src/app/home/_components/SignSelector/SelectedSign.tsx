@@ -2,21 +2,14 @@ import { Box, Flex, Heading, List, ListItem, Text, VStack } from '@chakra-ui/rea
 import NextLink from 'next/link';
 import { MessageBox } from '~/components/MessageBox';
 import { Button } from '~/components/ui/button';
-import { findDailyHoroscope } from '~/server/redis/redisQueries';
+import { findTodaysDailyHoroscope } from '~/server/redis/redisQueries';
 import { type HoroscopeSignType } from '~/utils/values';
 interface SelectedSignProps {
     name: HoroscopeSignType;
 }
 
-const formatDate = (date: Date) => {
-    // February 10, 2025
-    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-};
-
 export async function SelectedSign({ name }: SelectedSignProps) {
-    const today = new Date();
-
-    const dailyHoroscope = await findDailyHoroscope(name, today);
+    const dailyHoroscope = await findTodaysDailyHoroscope(name);
 
     if (!dailyHoroscope) {
         return (
@@ -29,9 +22,11 @@ export async function SelectedSign({ name }: SelectedSignProps) {
     return (
         <VStack height="full" gap={8}>
             <Flex justifyContent="space-between" justifyItems="center" alignItems="baseline" w="full">
-                <Heading size="3xl">{name}</Heading>
+                <Heading size="3xl" textTransform="capitalize">
+                    {name}
+                </Heading>
                 <Text fontSize="md" fontWeight="light">
-                    {formatDate(today)}
+                    {dailyHoroscope.date}
                 </Text>
             </Flex>
             <List.Root gap={4}>

@@ -3,7 +3,7 @@ import { render } from '@react-email/components';
 import DailyHoroscopeEmail from '~/components/emails/DailyHoroscopeEmail';
 import { UnauthorizedMessage } from '~/components/UnauthorizedMessage';
 import { checkIsAdmin } from '~/server/clerk/clerkQueries';
-import { findDailyHoroscope } from '~/server/redis/redisQueries';
+import { findTodaysDailyHoroscope } from '~/server/redis/redisQueries';
 import { HoroscopeSigns } from '~/utils/values';
 
 export default async function TestEmailPage() {
@@ -12,10 +12,9 @@ export default async function TestEmailPage() {
     if (!isAdmin) {
         return <UnauthorizedMessage />;
     }
-    const sign = HoroscopeSigns.Aries;
-    const date = new Date();
+    const sign = HoroscopeSigns.aries;
     const name = 'John Doe';
-    const dailyHoroscope = await findDailyHoroscope(sign, date);
+    const dailyHoroscope = await findTodaysDailyHoroscope(sign);
     const emailHtml = await render(<DailyHoroscopeEmail name={name} dailyHoroscope={dailyHoroscope} />);
     return (
         <Box p={6}>
