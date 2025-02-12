@@ -9,54 +9,54 @@ export interface SelectedSignItem {
 export const signList: SelectedSignItem[] = [
     {
         name: HoroscopeSigns.aries,
-        dateRange: 'March 21 - April 19',
+        dateRange: 'Mar 21 - Apr 19',
         image: '/signs/aries.png'
     },
     {
         name: HoroscopeSigns.taurus,
-        dateRange: 'April 20 - May 20',
+        dateRange: 'Apr 20 - May 20',
         image: '/signs/taurus.png'
     },
-    { name: HoroscopeSigns.gemini, dateRange: 'May 21 - June 20', image: '/signs/gemini.png' },
+    { name: HoroscopeSigns.gemini, dateRange: 'May 21 - Jun 20', image: '/signs/gemini.png' },
     {
         name: HoroscopeSigns.cancer,
-        dateRange: 'June 21 - July 22',
+        dateRange: 'Jun 21 - Jul 22',
         image: '/signs/cancer.png'
     },
-    { name: HoroscopeSigns.leo, dateRange: 'July 23 - August 22', image: '/signs/leo.png' },
+    { name: HoroscopeSigns.leo, dateRange: 'Jul 23 - Aug 22', image: '/signs/leo.png' },
     {
         name: HoroscopeSigns.virgo,
-        dateRange: 'August 23 - September 22',
+        dateRange: 'Aug 23 - Sep 22',
         image: '/signs/virgo.png'
     },
     {
         name: HoroscopeSigns.libra,
-        dateRange: 'September 23 - October 22',
+        dateRange: 'Sep 23 - Oct 22',
         image: '/signs/libra.png'
     },
     {
         name: HoroscopeSigns.scorpio,
-        dateRange: 'October 23 - November 21',
+        dateRange: 'Oct 23 - Nov 21',
         image: '/signs/scorpio.png'
     },
     {
         name: HoroscopeSigns.sagittarius,
-        dateRange: 'November 22 - December 21',
+        dateRange: 'Nov 22 - Dec 21',
         image: '/signs/sagittarius.png'
     },
     {
         name: HoroscopeSigns.capricorn,
-        dateRange: 'December 22 - January 19',
+        dateRange: 'Dec 22 - Jan 19',
         image: '/signs/capricorn.png'
     },
     {
         name: HoroscopeSigns.aquarius,
-        dateRange: 'January 20 - February 18',
+        dateRange: 'Jan 20 - Feb 18',
         image: '/signs/aquarius.png'
     },
     {
         name: HoroscopeSigns.pisces,
-        dateRange: 'February 19 - March 20',
+        dateRange: 'Feb 19 - Mar 20',
         image: '/signs/pisces.png'
     }
 ];
