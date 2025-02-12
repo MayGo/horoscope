@@ -9,3 +9,11 @@ export const checkIsAdmin = async () => {
     const user = await clerkClient.users.getUser(userId);
     return user.privateMetadata.isAdmin;
 };
+
+export const getUserEmail = async (userId: string) => {
+    const user = await clerkClient.users.getUser(userId);
+    if (user.emailAddresses.length === 0) {
+        return null;
+    }
+    return user.emailAddresses[0]?.emailAddress;
+};

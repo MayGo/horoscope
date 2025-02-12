@@ -73,7 +73,8 @@ export default function DailyHoroscopeEmail({
 const logo = {
     display: 'flex',
     padding: '20px 30px',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center'
 } as const;
 
 const subTitle = {

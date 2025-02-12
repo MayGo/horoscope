@@ -2,7 +2,7 @@ import { render } from '@react-email/components';
 import { eq } from 'drizzle-orm';
 import { type NextRequest } from 'next/server';
 import DailyHoroscopeEmail from '~/components/emails/DailyHoroscopeEmail';
-import { clerkClient } from '~/server/clerk/clerkClient';
+import { getUserEmail } from '~/server/clerk/clerkQueries';
 import { db } from '~/server/db/db';
 import { userSettings } from '~/server/db/schema';
 import { sendEmail } from '~/server/email/resend';
@@ -49,26 +49,21 @@ async function sendDailyHoroscopeEmails() {
     const users = await db.select().from(userSettings).where(eq(userSettings.sendEmailAllowed, true));
 
     const promises = users.map(async (user) => {
-        const clerkUser = await clerkClient.users.getUser(user.userId);
         const subject = `Daily Horoscope for ${extractDateString(new Date())}`;
+        const email = await getUserEmail(user.userId);
 
-        if (clerkUser?.emailAddresses?.length > 0) {
-            const email = clerkUser.emailAddresses[0]?.emailAddress;
-            if (email) {
-                const dailyHoroscope = await createAndSaveUserDailyHoroscope(user.userId);
-                if (dailyHoroscope) {
-                    const emailHtml = await render(
-                        <DailyHoroscopeEmail name={user.name} dailyHoroscope={dailyHoroscope} />
-                    );
-                    await sendEmail(email, subject, emailHtml, user.emailTime);
-                } else {
-                    console.error('No daily horoscope found for user', user.userId);
-                }
+        if (email) {
+            const dailyHoroscope = await createAndSaveUserDailyHoroscope(user.userId);
+            if (dailyHoroscope) {
+                const emailHtml = await render(
+                    <DailyHoroscopeEmail name={user.name} dailyHoroscope={dailyHoroscope} />
+                );
+                await sendEmail(email, subject, emailHtml, user.emailTime);
             } else {
-                console.error('No email found for user', user.userId);
+                console.error('No daily horoscope found for user', user.userId);
             }
         } else {
-            console.error('No email addresses found for user', user.userId);
+            console.error('No email found for user', user.userId);
         }
 
         return null;
