@@ -12,3 +12,14 @@ export const getPreviousDate = (date: Date) => {
     newDate.setDate(date.getDate() - 1);
     return newDate;
 };
+
+/**
+ * Get the tomorrow's date
+ * @returns The tomorrow's date
+ */
+export const getTomorrowsDate = () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    return tomorrow;
+};
