@@ -1,17 +1,19 @@
-import { Skeleton, VStack } from '@chakra-ui/react';
-export default function Loading() {
-    return (
-        <VStack alignItems="center">
-            <Skeleton height="40px" width="100%" mb={10} />
-            <VStack gap={4} w="full">
-                <Skeleton height="20px" width="100%" />
-                <Skeleton height="20px" width="100%" />
-                <Skeleton height="20px" width="100%" />
-                <Skeleton height="20px" width="100%" />
-                <Skeleton height="20px" width="100%" />
-            </VStack>
+import { SimpleGrid, Skeleton, VStack } from '@chakra-ui/react';
+import { SkeletonText } from '~/components/ui/skeleton';
 
-            <Skeleton height="40px" width="100%" mt={10} rounded="full" w="200px" />
+export default function SelectedSignLoading() {
+    return (
+        <VStack alignItems="left" px={8}>
+            <Skeleton height="40px" width="100px" mb={10} />
+            <SkeletonText noOfLines={3} gap={4} />
+            <Skeleton height="30px" width="100px" mt={10} mb={4} />
+            <SkeletonText noOfLines={3} gap={4} />
+            <Skeleton height="30px" width="100px" mt={10} mb={4} />
+            <SimpleGrid columns={[2, 3, 3]} gap={4} maxW="550px">
+                {Array.from({ length: 6 }).map((_, index) => (
+                    <Skeleton key={index} height="100px" width="100%" />
+                ))}
+            </SimpleGrid>
         </VStack>
     );
 }
