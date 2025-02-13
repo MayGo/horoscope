@@ -4,7 +4,7 @@ import { flattenValidationErrors } from 'next-safe-action';
 import 'server-only';
 import { testSettingsSchema, type TestSettingsSchema } from '~/validations/testSettings.validation';
 import { actionClient } from '../../utils/safe-action';
-import { getDailyHoroscope } from '../redis/redisQueries';
+import { getDailyHoroscope } from '../redis/dailyHoroscopeKV';
 
 export const searchHoroscopeAction = actionClient
     .metadata({ actionName: 'searchHoroscopeAction' })

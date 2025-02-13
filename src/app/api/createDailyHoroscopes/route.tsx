@@ -8,7 +8,7 @@ import { userSettings } from '~/server/db/schema';
 import { sendEmail } from '~/server/email/resend';
 import { createScheduledAt } from '~/server/email/resend.utils';
 import { createAndSaveDailyHoroscope, createAndSaveUserDailyHoroscope } from '~/server/openai/ai';
-import { getUserDailyHoroscope } from '~/server/redis/redisQueries';
+import { getUserDailyHoroscope } from '~/server/redis/userHoroscopeKV';
 import { extractDateString } from '~/utils/date.utils';
 import { HoroscopeSigns } from '~/utils/values';
 

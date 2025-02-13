@@ -6,14 +6,9 @@ import { extractDateString, getPreviousDate } from '~/utils/date.utils';
 import type { HoroscopeSignType } from '~/utils/values';
 import { horoscopeResultsSchema } from '~/validations/horoscopeResults.validation';
 import { findUserSettings } from '../db/queries';
-import {
-    getDailyHoroscope,
-    getUserDailyHoroscope,
-    saveDailyHoroscope,
-    saveUserDailyHoroscope
-} from '../redis/redisQueries';
+import { getDailyHoroscope, saveDailyHoroscope } from '../redis/dailyHoroscopeKV';
+import { getUserDailyHoroscope, saveUserDailyHoroscope } from '../redis/userHoroscopeKV';
 import { getExtraPrompt } from './ai.utils';
-
 const modelName = 'gpt-4o-mini';
 
 export const createDailyHoroscopeWithAI = async (sign: string, date: Date, extraPrompt?: string) => {
