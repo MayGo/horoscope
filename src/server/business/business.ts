@@ -7,16 +7,17 @@ import { db } from '~/server/db/db';
 import { userSettings } from '~/server/db/schema';
 import { sendEmail } from '~/server/email/resend';
 import { createScheduledAt } from '~/server/email/resend.utils';
-import { createAndSaveDailyHoroscope, createAndSaveUserDailyHoroscope } from '~/server/openai/ai';
 import { userHoroscopeKV } from '~/server/redis/userHoroscopeKV';
 import { extractDateString, getTomorrowsDate } from '~/utils/date.utils';
 import { HoroscopeSigns } from '~/utils/values';
+import { makeGeneralHoroscope } from './business.general';
+import { makeUserHoroscope } from './business.user';
 
 export async function generateGeneralHoroscopes() {
     const date = getTomorrowsDate();
 
     const promises = Object.values(HoroscopeSigns).map(async (sign) => {
-        return createAndSaveDailyHoroscope(sign, date);
+        return makeGeneralHoroscope(sign, date);
     });
 
     await Promise.all(promises);
@@ -28,7 +29,7 @@ export async function generateUserHoroscopes() {
 
     console.log(`Generating horoscopes for ${allUsers.length} users`);
 
-    await Promise.all(allUsers.map((user) => createAndSaveUserDailyHoroscope(user.userId)));
+    await Promise.all(allUsers.map((user) => makeUserHoroscope(user.userId)));
 
     console.log('Completed user horoscope generation');
 }

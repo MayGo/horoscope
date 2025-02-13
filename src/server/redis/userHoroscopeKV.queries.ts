@@ -1,5 +1,5 @@
 import { auth } from '@clerk/nextjs/server';
-import { createAndSaveUserDailyHoroscope } from '../openai/ai';
+import { makeUserHoroscope } from '../business/business.user';
 import { userHoroscopeKV } from './userHoroscopeKV';
 
 export const findMyDailyHoroscope = async () => {
@@ -13,8 +13,8 @@ export const findMyDailyHoroscope = async () => {
     const horoscope = await userHoroscopeKV.get(authUser.userId, today);
 
     if (!horoscope) {
-        // generate the initial horoscope
-        const newHoroscope = await createAndSaveUserDailyHoroscope(authUser.userId);
+        // make the initial horoscope
+        const newHoroscope = await makeUserHoroscope(authUser.userId);
 
         if (!newHoroscope) {
             console.error('Failed to create and save user daily horoscope');

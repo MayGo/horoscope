@@ -5,7 +5,7 @@ import 'server-only';
 import { HoroscopeSigns } from '~/utils/values';
 import { testSettingsSchema, type TestSettingsSchema } from '~/validations/testSettings.validation';
 import { actionClient } from '../../utils/safe-action';
-import { createAndSaveDailyHoroscope } from '../openai/ai';
+import { makeGeneralHoroscope } from '../business/business.general';
 
 export const generateHoroscopeAction = actionClient
     .metadata({ actionName: 'generateHoroscopeAction' })
@@ -21,7 +21,7 @@ export const generateHoroscopeAction = actionClient
         const date = new Date(parsedInput.date);
 
         if (parsedInput.sign) {
-            const result = await createAndSaveDailyHoroscope(parsedInput.sign, date);
+            const result = await makeGeneralHoroscope(parsedInput.sign, date);
 
             if (!result) {
                 throw new Error('Failed to generate horoscope');
@@ -31,7 +31,7 @@ export const generateHoroscopeAction = actionClient
         } else {
             console.log('Generating horoscopes for all signs');
             const promises = Object.values(HoroscopeSigns).map(async (sign) => {
-                return createAndSaveDailyHoroscope(sign, date);
+                return makeGeneralHoroscope(sign, date);
             });
 
             const results = await Promise.all(promises);

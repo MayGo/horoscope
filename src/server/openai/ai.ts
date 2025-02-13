@@ -2,16 +2,11 @@ import { openai } from '@ai-sdk/openai';
 import { generateObject } from 'ai';
 import { randomUUID } from 'crypto';
 import 'server-only';
-import { extractDateString, getPreviousDate } from '~/utils/date.utils';
-import type { HoroscopeSignType } from '~/utils/values';
+import { extractDateString } from '~/utils/date.utils';
 import { horoscopeResultsSchema } from '~/validations/horoscopeResults.validation';
-import { findUserSettings } from '../db/queries';
-import { dailyHoroscopeKV } from '../redis/dailyHoroscopeKV';
-import { userHoroscopeKV } from '../redis/userHoroscopeKV';
-import { getExtraPrompt } from './ai.utils';
 const modelName = 'gpt-4o-mini';
 
-export const createDailyHoroscopeWithAI = async (sign: string, date: Date, extraPrompt?: string) => {
+export const predictHoroscopeWithAI = async (sign: string, date: Date, extraPrompt?: string) => {
     const randomStr = randomUUID();
     const result = await generateObject({
         model: openai(modelName, {
@@ -30,49 +25,3 @@ export const createDailyHoroscopeWithAI = async (sign: string, date: Date, extra
 
     return result.object;
 };
-
-export async function createAndSaveDailyHoroscope(sign: HoroscopeSignType, date: Date) {
-    console.log(`Creating and saving daily horoscope for ${sign} on ${extractDateString(date)}`);
-
-    const previousHoroscope = await dailyHoroscopeKV.get(sign, getPreviousDate(date));
-    const data = await createDailyHoroscopeWithAI(sign, date, getExtraPrompt(previousHoroscope));
-
-    if (data) {
-        await dailyHoroscopeKV.set(sign, date, data);
-    } else {
-        console.error('Invalid data from AI');
-    }
-    return data;
-}
-
-export async function createAndSaveUserDailyHoroscope(userId: string) {
-    console.log(`Creating and saving user daily horoscope for ${userId}`);
-
-    const userSettings = await findUserSettings(userId);
-    if (!userSettings) {
-        console.error('User settings not found');
-        return null;
-    }
-
-    if (!userSettings.sign) {
-        console.error('User sign not found');
-        return null;
-    }
-
-    const today = new Date();
-
-    const previousHoroscope = await userHoroscopeKV.get(userId, getPreviousDate(today));
-
-    const data = await createDailyHoroscopeWithAI(
-        userSettings.sign as HoroscopeSignType,
-        today,
-        getExtraPrompt(previousHoroscope)
-    );
-
-    if (data) {
-        await userHoroscopeKV.set(userId, data);
-    } else {
-        console.error('Invalid data from AI');
-    }
-    return data;
-}
