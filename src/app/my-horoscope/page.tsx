@@ -26,7 +26,7 @@ export default async function Personalization() {
                 My horoscope for today
             </Heading>
 
-            <VStack maxW="550px">
+            <VStack>
                 {showWarning && (
                     <Box mb={6}>
                         <MessageBox
@@ -45,7 +45,7 @@ export default async function Personalization() {
             <SignedIn>
                 <Flex justifyContent="center" pt={10}>
                     <Link href="/settings" passHref legacyBehavior>
-                        <Button>Horoscope Settings</Button>
+                        <Button>Personal Horoscope Settings</Button>
                     </Link>
                 </Flex>
             </SignedIn>

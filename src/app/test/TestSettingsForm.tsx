@@ -15,6 +15,7 @@ import { type HoroscopeResultsSchema } from '~/validations/horoscopeResults.vali
 import { testSettingsSchema, type TestSettingsSchema } from '~/validations/testSettings.validation';
 
 import { InputLabel } from '~/components/InputLabel';
+import { MessageBox } from '~/components/MessageBox';
 import Horoscope from '../my-horoscope/Horoscope';
 import { horoscopeSignsOptions } from '../settings/_components/UserSettingsForm.utils';
 import { HoroscopeJSON } from './TestResult';
@@ -22,6 +23,16 @@ import { HoroscopeJSON } from './TestResult';
 const defaultValues = {
     sign: HoroscopeSigns.aries,
     date: new Date().toISOString().split('T')[0] ?? ''
+};
+
+const getYesterdayDate = (date: Date) => {
+    date.setDate(date.getDate() - 1);
+    return date.toISOString().split('T')[0] ?? '';
+};
+
+const getTomorrowDate = (date: Date) => {
+    date.setDate(date.getDate() + 1);
+    return date.toISOString().split('T')[0] ?? '';
 };
 
 export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettingsSchema }) => {
@@ -36,7 +47,7 @@ export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettings
         }
     });
 
-    const { register, handleSubmit } = methods;
+    const { register, handleSubmit, getValues } = methods;
 
     const { execute: getHoroscope, isPending: isSaving } = useAction(generateHoroscopeAction, {
         onSuccess({ data }: { data?: HoroscopeResultsSchema }) {
@@ -73,6 +84,7 @@ export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettings
                 title: 'Search Error',
                 description: error.serverError
             });
+            setHoroscope(null);
         }
     });
 
@@ -100,7 +112,18 @@ export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettings
                                 <Input type="date" {...register('date')} />
                             </InputLabel>
                         </Stack>
-                        <HStack gap={4} w="full">
+                        <HStack mt={2} w="full">
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                    methods.setValue('date', getYesterdayDate(new Date(getValues('date'))));
+                                    void handleSubmit((data) => searchHoroscope(data))();
+                                }}
+                            >
+                                Previous
+                            </Button>
                             <Button
                                 type="submit"
                                 value="search"
@@ -111,13 +134,24 @@ export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettings
                             >
                                 {isSearching ? 'Searching...' : 'Search Horoscope'}
                             </Button>
+
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                    methods.setValue('date', getTomorrowDate(new Date(getValues('date'))));
+                                    void handleSubmit((data) => searchHoroscope(data))();
+                                }}
+                            >
+                                Next
+                            </Button>
                             <Button
                                 type="submit"
                                 value="generate"
                                 disabled={isSaving}
-                                variant="solid"
+                                variant="ghost"
                                 colorScheme="yellow"
-                                flex={1}
                             >
                                 {isSaving ? 'Generating...' : 'Generate & Save'}
                             </Button>
@@ -125,10 +159,14 @@ export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettings
                     </VStack>
                 </form>
             </FormProvider>
-            {horoscope && (
+            {horoscope ? (
                 <VStack gap={4} mt={10} alignItems="flex-start">
                     <Horoscope horoscope={horoscope} />
                     <HoroscopeJSON horoscope={horoscope} />
+                </VStack>
+            ) : (
+                <VStack gap={4} mt={10} alignItems="flex-start">
+                    <MessageBox type="info" content="No horoscope found" />
                 </VStack>
             )}
         </>

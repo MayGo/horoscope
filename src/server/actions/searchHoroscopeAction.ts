@@ -23,7 +23,7 @@ export const searchHoroscopeAction = actionClient
             const result = await findDailyHoroscope(parsedInput.sign, date);
 
             if (!result) {
-                throw new Error('Failed to generate horoscope');
+                throw new Error('Failed to find horoscope');
             }
 
             return result;
