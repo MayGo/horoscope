@@ -4,7 +4,7 @@ import { SubmitEmailForm } from '~/components/buttons/SubmitEmailForm';
 import DailyHoroscopeEmail from '~/components/emails/DailyHoroscopeEmail';
 import { UnauthorizedMessage } from '~/components/UnauthorizedMessage';
 import { checkIsAdmin } from '~/server/clerk/clerkQueries';
-import { getTodaysDailyHoroscope } from '~/server/redis/redisQueries';
+import { getTodaysDailyHoroscope } from '~/server/redis/dailyHoroscopeKV.queries';
 import { HoroscopeSigns } from '~/utils/values';
 
 export default async function TestEmailPage() {

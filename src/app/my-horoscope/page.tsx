@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { MessageBox } from '~/components/MessageBox';
 import { Button } from '~/components/ui/button';
 import { getMySettings } from '~/server/db/queries';
-import { findMyDailyHoroscope } from '~/server/redis/redisQueries';
+import { findMyDailyHoroscope } from '~/server/redis/userHoroscopeKV.queries';
 import { capitalize } from '~/utils/string.utils';
 import Horoscope from './Horoscope';
 

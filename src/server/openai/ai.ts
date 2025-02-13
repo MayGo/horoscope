@@ -6,7 +6,7 @@ import { extractDateString, getPreviousDate } from '~/utils/date.utils';
 import type { HoroscopeSignType } from '~/utils/values';
 import { horoscopeResultsSchema } from '~/validations/horoscopeResults.validation';
 import { findUserSettings } from '../db/queries';
-import { getDailyHoroscope, saveDailyHoroscope } from '../redis/dailyHoroscopeKV';
+import { dailyHoroscopeKV } from '../redis/dailyHoroscopeKV';
 import { userHoroscopeKV } from '../redis/userHoroscopeKV';
 import { getExtraPrompt } from './ai.utils';
 const modelName = 'gpt-4o-mini';
@@ -34,11 +34,11 @@ export const createDailyHoroscopeWithAI = async (sign: string, date: Date, extra
 export async function createAndSaveDailyHoroscope(sign: HoroscopeSignType, date: Date) {
     console.log(`Creating and saving daily horoscope for ${sign} on ${extractDateString(date)}`);
 
-    const previousHoroscope = await getDailyHoroscope(sign, getPreviousDate(date));
+    const previousHoroscope = await dailyHoroscopeKV.get(sign, getPreviousDate(date));
     const data = await createDailyHoroscopeWithAI(sign, date, getExtraPrompt(previousHoroscope));
 
     if (data) {
-        await saveDailyHoroscope(sign, date, data);
+        await dailyHoroscopeKV.set(sign, date, data);
     } else {
         console.error('Invalid data from AI');
     }

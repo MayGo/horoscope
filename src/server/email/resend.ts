@@ -5,7 +5,7 @@ import { Resend } from 'resend';
 import DailyHoroscopeEmail from '~/components/emails/DailyHoroscopeEmail';
 import { env } from '~/env';
 import { getUserEmail } from '../clerk/clerkQueries';
-import { findMyDailyHoroscope } from '../redis/redisQueries';
+import { findMyDailyHoroscope } from '../redis/userHoroscopeKV.queries';
 import { generateEntityRefId } from './resend.utils';
 
 const resend = new Resend(env.RESEND_API_KEY);

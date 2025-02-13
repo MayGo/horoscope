@@ -1,8 +1,14 @@
+import { extractDateString } from '~/utils/date.utils';
 import { type HoroscopeResultsSchema } from '~/validations/horoscopeResults.validation';
-import { kv } from './redisClient';
-import { getUserDailyHoroscopeKey } from './redisUtils';
+import { kv } from './kv';
 
 const HOROSCOPE_TTL = 7 * 60 * 60 * 24; // 7 days
+
+const getUserDailyHoroscopeKey = (userId: string, date: Date) => {
+    const dateStr = extractDateString(date);
+    const key = `user_horoscope:${userId}:${dateStr}`;
+    return key;
+};
 
 const getUserDailyHoroscope = async (userId: string, date: Date) => {
     const key = getUserDailyHoroscopeKey(userId, date);

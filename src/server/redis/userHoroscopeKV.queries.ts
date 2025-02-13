@@ -1,12 +1,6 @@
 import { auth } from '@clerk/nextjs/server';
-import { type HoroscopeSignType } from '~/utils/values';
 import { createAndSaveUserDailyHoroscope } from '../openai/ai';
-import { getDailyHoroscope } from './dailyHoroscopeKV';
 import { userHoroscopeKV } from './userHoroscopeKV';
-
-export const getTodaysDailyHoroscope = async (sign: HoroscopeSignType) => {
-    return getDailyHoroscope(sign, new Date());
-};
 
 export const findMyDailyHoroscope = async () => {
     const authUser = await auth();
