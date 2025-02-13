@@ -8,8 +8,8 @@ import { actionClient } from '../../utils/safe-action';
 import { type UserSettingsSchema, userSettingsSchema } from '../../validations/userSettings.validation';
 import { upsertUserSettings } from '../db/userSettings.queries';
 
-export const saveUserSettingsAction = actionClient
-    .metadata({ actionName: 'saveUserSettingsAction' })
+export const upsertUserSettingsAction = actionClient
+    .metadata({ actionName: 'upsertUserSettingsAction' })
     .schema(userSettingsSchema, {
         handleValidationErrorsShape: async (ve) => flattenValidationErrors(ve).fieldErrors
     })

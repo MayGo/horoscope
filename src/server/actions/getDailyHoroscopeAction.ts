@@ -6,8 +6,8 @@ import { testSettingsSchema, type TestSettingsSchema } from '~/validations/testS
 import { actionClient } from '../../utils/safe-action';
 import { dailyHoroscopeKV } from '../redis/dailyHoroscopeKV';
 
-export const searchHoroscopeAction = actionClient
-    .metadata({ actionName: 'searchHoroscopeAction' })
+export const getDailyHoroscopeAction = actionClient
+    .metadata({ actionName: 'getDailyHoroscopeAction' })
     .schema(testSettingsSchema, {
         handleValidationErrorsShape: async (ve) => flattenValidationErrors(ve).fieldErrors
     })

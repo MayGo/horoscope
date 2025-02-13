@@ -8,8 +8,9 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { Button } from '~/components/ui/button';
 import { SimpleSelect } from '~/components/ui/SimpleSelect';
 import { toaster } from '~/components/ui/Toaster';
-import { makeGeneralHoroscopeAction } from '~/server/actions/makeGeneralHoroscopeAction';
-import { searchHoroscopeAction } from '~/server/actions/searchHoroscopeAction';
+import { makeGeneralHoroscopeAction } from '~/server/actions/generateHoroscopeAction';
+import { getDailyHoroscopeAction } from '~/server/actions/getDailyHoroscopeAction';
+
 import { HoroscopeSigns } from '~/utils/values';
 import { type HoroscopeResultsSchema } from '~/validations/horoscopeResults.validation';
 import { testSettingsSchema, type TestSettingsSchema } from '~/validations/testSettings.validation';
@@ -69,7 +70,7 @@ export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettings
         }
     });
 
-    const { execute: searchHoroscope, isPending: isSearching } = useAction(searchHoroscopeAction, {
+    const { execute: searchHoroscope, isPending: isSearching } = useAction(getDailyHoroscopeAction, {
         onSuccess({ data }: { data?: HoroscopeResultsSchema }) {
             if (data) {
                 toaster.success({

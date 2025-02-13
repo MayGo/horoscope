@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 import { SimpleCheckbox } from '~/components/ui/SimpleCheckbox';
 import { SimpleSelect } from '~/components/ui/SimpleSelect';
 import { toaster } from '~/components/ui/Toaster';
-import { saveUserSettingsAction } from '~/server/actions/saveUserSettingsAction';
+import { upsertUserSettingsAction } from '~/server/actions/upsertUserSettingsAction';
 import { HoroscopeAge, HoroscopeLength, HoroscopeSigns, TimeOfDay } from '~/utils/values';
 import { type UserSettingsSchema, userSettingsSchema } from '~/validations/userSettings.validation';
 import { InputLabel } from '../../../components/InputLabel';
@@ -46,7 +46,7 @@ export const UserSettingsForm = ({ data = defaultValues }: { data?: UserSettings
 
     const { register, handleSubmit } = methods;
 
-    const { execute: executeSave, isPending: isSaving } = useAction(saveUserSettingsAction, {
+    const { execute: executeSave, isPending: isSaving } = useAction(upsertUserSettingsAction, {
         onSuccess({ data }: { data?: { message: string } }) {
             if (data?.message) {
                 toaster.success({
