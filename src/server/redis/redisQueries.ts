@@ -5,15 +5,15 @@ import { createAndSaveUserDailyHoroscope } from '../openai/ai';
 import { kv } from './redisClient';
 import { getDailyHoroscopeKey, getUserDailyHoroscopeKey } from './redisUtils';
 
-export const findDailyHoroscope = async (sign: HoroscopeSignType, date: Date) => {
+export const getDailyHoroscope = async (sign: HoroscopeSignType, date: Date) => {
     const key = getDailyHoroscopeKey(sign, date);
     const horoscope = await kv.get(key);
 
     return horoscope as HoroscopeResultsSchema;
 };
 
-export const findTodaysDailyHoroscope = async (sign: HoroscopeSignType) => {
-    return findDailyHoroscope(sign, new Date());
+export const getTodaysDailyHoroscope = async (sign: HoroscopeSignType) => {
+    return getDailyHoroscope(sign, new Date());
 };
 
 export const saveDailyHoroscope = async (sign: HoroscopeSignType, date: Date, horoscope: HoroscopeResultsSchema) => {
@@ -21,8 +21,8 @@ export const saveDailyHoroscope = async (sign: HoroscopeSignType, date: Date, ho
     await kv.set(key, horoscope);
 };
 
-export const findUserDailyHoroscope = async (userId: string) => {
-    const key = getUserDailyHoroscopeKey(userId);
+export const getUserDailyHoroscope = async (userId: string, date: Date) => {
+    const key = getUserDailyHoroscopeKey(userId, date);
     const horoscope = await kv.get(key);
     return horoscope as HoroscopeResultsSchema;
 };
@@ -34,7 +34,8 @@ export const findMyDailyHoroscope = async () => {
         throw new Error('User not authenticated');
     }
 
-    const horoscope = await findUserDailyHoroscope(authUser.userId);
+    const today = new Date();
+    const horoscope = await getUserDailyHoroscope(authUser.userId, today);
 
     if (!horoscope) {
         // generate the initial horoscope
@@ -52,6 +53,7 @@ export const findMyDailyHoroscope = async () => {
 };
 
 export const saveUserDailyHoroscope = async (userId: string, horoscope: HoroscopeResultsSchema) => {
-    const key = getUserDailyHoroscopeKey(userId);
+    const today = new Date();
+    const key = getUserDailyHoroscopeKey(userId, today);
     await kv.set(key, horoscope);
 };

@@ -8,7 +8,8 @@ export const getDailyHoroscopeKey = (sign: HoroscopeSignType, date: Date) => {
     return key;
 };
 
-export const getUserDailyHoroscopeKey = (userId: string) => {
-    const key = `user_horoscope:${userId}`;
+export const getUserDailyHoroscopeKey = (userId: string, date: Date) => {
+    const dateStr = extractDateString(date);
+    const key = `user_horoscope:${userId}:${dateStr}`;
     return key;
 };

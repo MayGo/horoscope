@@ -2,15 +2,21 @@ import { openai } from '@ai-sdk/openai';
 import { generateObject } from 'ai';
 import { randomUUID } from 'crypto';
 import 'server-only';
-import { extractDateString } from '~/utils/date.utils';
+import { extractDateString, getPreviousDate } from '~/utils/date.utils';
 import type { HoroscopeSignType } from '~/utils/values';
 import { horoscopeResultsSchema } from '~/validations/horoscopeResults.validation';
 import { findUserSettings } from '../db/queries';
-import { saveDailyHoroscope, saveUserDailyHoroscope } from '../redis/redisQueries';
+import {
+    getDailyHoroscope,
+    getUserDailyHoroscope,
+    saveDailyHoroscope,
+    saveUserDailyHoroscope
+} from '../redis/redisQueries';
+import { getExtraPrompt } from './ai.utils';
 
 const modelName = 'gpt-4o-mini';
 
-export const createDailyHoroscopeWithAI = async (sign: string, date: Date) => {
+export const createDailyHoroscopeWithAI = async (sign: string, date: Date, extraPrompt?: string) => {
     const randomStr = randomUUID();
     const result = await generateObject({
         model: openai(modelName, {
@@ -21,7 +27,7 @@ export const createDailyHoroscopeWithAI = async (sign: string, date: Date) => {
         schemaDescription: 'A horoscope for a user.',
         schema: horoscopeResultsSchema,
 
-        prompt: `${randomStr} ${randomStr} What my horoscope for ${sign} on ${extractDateString(date)}? ${randomStr}`
+        prompt: `${randomStr} ${randomStr} What my horoscope for ${sign} on ${extractDateString(date)}? ${randomStr} ${extraPrompt}`
     });
 
     return result.object;
@@ -29,7 +35,10 @@ export const createDailyHoroscopeWithAI = async (sign: string, date: Date) => {
 
 export async function createAndSaveDailyHoroscope(sign: HoroscopeSignType, date: Date) {
     console.log(`Creating and saving daily horoscope for ${sign} on ${extractDateString(date)}`);
-    const data = await createDailyHoroscopeWithAI(sign, date);
+
+    const previousHoroscope = await getDailyHoroscope(sign, getPreviousDate(date));
+    const data = await createDailyHoroscopeWithAI(sign, date, getExtraPrompt(previousHoroscope));
+
     if (data) {
         await saveDailyHoroscope(sign, date, data);
     } else {
@@ -53,7 +62,15 @@ export async function createAndSaveUserDailyHoroscope(userId: string) {
     }
 
     const today = new Date();
-    const data = await createDailyHoroscopeWithAI(userSettings.sign as HoroscopeSignType, today);
+
+    const previousHoroscope = await getUserDailyHoroscope(userId, getPreviousDate(today));
+
+    const data = await createDailyHoroscopeWithAI(
+        userSettings.sign as HoroscopeSignType,
+        today,
+        getExtraPrompt(previousHoroscope)
+    );
+
     if (data) {
         await saveUserDailyHoroscope(userId, data);
     } else {

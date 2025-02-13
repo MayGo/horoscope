@@ -7,7 +7,7 @@ import { db } from '~/server/db/db';
 import { userSettings } from '~/server/db/schema';
 import { sendEmail } from '~/server/email/resend';
 import { createAndSaveDailyHoroscope, createAndSaveUserDailyHoroscope } from '~/server/openai/ai';
-import { findUserDailyHoroscope } from '~/server/redis/redisQueries';
+import { getUserDailyHoroscope } from '~/server/redis/redisQueries';
 import { extractDateString } from '~/utils/date.utils';
 import { HoroscopeSigns } from '~/utils/values';
 
@@ -71,7 +71,8 @@ async function sendDailyHoroscopeEmails() {
             return null;
         }
 
-        const dailyHoroscope = await findUserDailyHoroscope(user.userId);
+        const today = new Date();
+        const dailyHoroscope = await getUserDailyHoroscope(user.userId, today);
 
         if (dailyHoroscope) {
             const emailHtml = await render(<DailyHoroscopeEmail name={user.name} dailyHoroscope={dailyHoroscope} />);

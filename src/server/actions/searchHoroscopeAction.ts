@@ -4,7 +4,7 @@ import { flattenValidationErrors } from 'next-safe-action';
 import 'server-only';
 import { testSettingsSchema, type TestSettingsSchema } from '~/validations/testSettings.validation';
 import { actionClient } from '../../utils/safe-action';
-import { findDailyHoroscope } from '../redis/redisQueries';
+import { getDailyHoroscope } from '../redis/redisQueries';
 
 export const searchHoroscopeAction = actionClient
     .metadata({ actionName: 'searchHoroscopeAction' })
@@ -20,7 +20,7 @@ export const searchHoroscopeAction = actionClient
         const date = new Date(parsedInput.date);
 
         if (parsedInput.sign) {
-            const result = await findDailyHoroscope(parsedInput.sign, date);
+            const result = await getDailyHoroscope(parsedInput.sign, date);
 
             if (!result) {
                 throw new Error('Failed to find horoscope');

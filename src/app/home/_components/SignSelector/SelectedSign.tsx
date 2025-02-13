@@ -2,7 +2,7 @@ import { Box, VStack } from '@chakra-ui/react';
 import { PersonalizedHoroscopeButton } from '~/app/_components/PersonalizedHoroscopeButton';
 import Horoscope from '~/app/my-horoscope/Horoscope';
 import { MessageBox } from '~/components/MessageBox';
-import { findTodaysDailyHoroscope } from '~/server/redis/redisQueries';
+import { getTodaysDailyHoroscope } from '~/server/redis/redisQueries';
 import { type HoroscopeSignType } from '~/utils/values';
 
 interface SelectedSignProps {
@@ -10,7 +10,7 @@ interface SelectedSignProps {
 }
 
 export async function SelectedSign({ name }: SelectedSignProps) {
-    const dailyHoroscope = await findTodaysDailyHoroscope(name);
+    const dailyHoroscope = await getTodaysDailyHoroscope(name);
 
     if (!dailyHoroscope) {
         return (

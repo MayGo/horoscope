@@ -4,7 +4,7 @@ import { SubmitEmailForm } from '~/components/buttons/SubmitEmailForm';
 import DailyHoroscopeEmail from '~/components/emails/DailyHoroscopeEmail';
 import { UnauthorizedMessage } from '~/components/UnauthorizedMessage';
 import { checkIsAdmin } from '~/server/clerk/clerkQueries';
-import { findTodaysDailyHoroscope } from '~/server/redis/redisQueries';
+import { getTodaysDailyHoroscope } from '~/server/redis/redisQueries';
 import { HoroscopeSigns } from '~/utils/values';
 
 export default async function TestEmailPage() {
@@ -16,7 +16,7 @@ export default async function TestEmailPage() {
 
     const sign = HoroscopeSigns.aries;
     const name = 'John Doe';
-    const dailyHoroscope = await findTodaysDailyHoroscope(sign);
+    const dailyHoroscope = await getTodaysDailyHoroscope(sign);
     const emailHtml = await render(<DailyHoroscopeEmail name={name} dailyHoroscope={dailyHoroscope} />);
 
     return (

@@ -15,8 +15,9 @@
 - [x] Redesign daily horoscope to include affirmations and daily insights
 - [ ] Add previous days daily insights to horoscope generation, so we get different horoscopes each day
 - [ ] Add timezone to email sending time
-- [ ] Keep horoscope keyed by day
+- [ ] User horoscope keyed by day
 - [ ] Keep horoscopes for 7 days in redis
+- [ ] Optimize cron jobs if user base grows
 
 ## Tech Stack
 
