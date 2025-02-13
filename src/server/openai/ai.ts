@@ -30,6 +30,9 @@ export const createDailyHoroscopeWithAI = async (sign: string, date: Date, extra
         prompt: `${randomStr} ${randomStr} What my horoscope for ${sign} on ${extractDateString(date)}? ${randomStr} ${extraPrompt}`
     });
 
+    console.log('Result:', result);
+    console.log('Tokens consumed:', result.usage?.totalTokens ?? 'unknown');
+
     return result.object;
 };
 
