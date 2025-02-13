@@ -2,7 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { type HoroscopeSignType } from '~/utils/values';
 import { createAndSaveUserDailyHoroscope } from '../openai/ai';
 import { getDailyHoroscope } from './dailyHoroscopeKV';
-import { getUserDailyHoroscope } from './userHoroscopeKV';
+import { userHoroscopeKV } from './userHoroscopeKV';
 
 export const getTodaysDailyHoroscope = async (sign: HoroscopeSignType) => {
     return getDailyHoroscope(sign, new Date());
@@ -16,7 +16,7 @@ export const findMyDailyHoroscope = async () => {
     }
 
     const today = new Date();
-    const horoscope = await getUserDailyHoroscope(authUser.userId, today);
+    const horoscope = await userHoroscopeKV.get(authUser.userId, today);
 
     if (!horoscope) {
         // generate the initial horoscope
