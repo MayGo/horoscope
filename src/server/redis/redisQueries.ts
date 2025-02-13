@@ -5,12 +5,15 @@ import { createAndSaveUserDailyHoroscope } from '../openai/ai';
 import { kv } from './redisClient';
 import { getDailyHoroscopeKey, getUserDailyHoroscopeKey } from './redisUtils';
 
-export const findTodaysDailyHoroscope = async (sign: HoroscopeSignType) => {
-    const key = getDailyHoroscopeKey(sign, new Date());
-    // console.log(`Getting daily horoscope for ${key} from redis`);
+export const findDailyHoroscope = async (sign: HoroscopeSignType, date: Date) => {
+    const key = getDailyHoroscopeKey(sign, date);
     const horoscope = await kv.get(key);
-    //  console.log('Retrieved horoscope:', horoscope);
+
     return horoscope as HoroscopeResultsSchema;
+};
+
+export const findTodaysDailyHoroscope = async (sign: HoroscopeSignType) => {
+    return findDailyHoroscope(sign, new Date());
 };
 
 export const saveDailyHoroscope = async (sign: HoroscopeSignType, date: Date, horoscope: HoroscopeResultsSchema) => {

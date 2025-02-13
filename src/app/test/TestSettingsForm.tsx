@@ -1,6 +1,6 @@
 'use client';
 
-import { Input, Stack, VStack } from '@chakra-ui/react';
+import { HStack, Input, Stack, VStack } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAction } from 'next-safe-action/hooks';
 import { useRef, useState } from 'react';
@@ -9,6 +9,7 @@ import { Button } from '~/components/ui/button';
 import { SimpleSelect } from '~/components/ui/SimpleSelect';
 import { toaster } from '~/components/ui/Toaster';
 import { generateHoroscopeAction } from '~/server/actions/generateHoroscopeAction';
+import { searchHoroscopeAction } from '~/server/actions/searchHoroscopeAction';
 import { HoroscopeSigns } from '~/utils/values';
 import { type HoroscopeResultsSchema } from '~/validations/horoscopeResults.validation';
 import { testSettingsSchema, type TestSettingsSchema } from '~/validations/testSettings.validation';
@@ -56,14 +57,38 @@ export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettings
         }
     });
 
-    async function submitForm(data: TestSettingsSchema) {
-        getHoroscope(data);
+    const { execute: searchHoroscope, isPending: isSearching } = useAction(searchHoroscopeAction, {
+        onSuccess({ data }: { data?: HoroscopeResultsSchema }) {
+            if (data) {
+                toaster.success({
+                    title: 'Search Successful! 🔍',
+                    description: `Found results for ${data.sign} on ${data.date}`
+                });
+                setResultObject(data);
+            }
+        },
+        onError({ error }) {
+            toaster.error({
+                title: 'Search Error',
+                description: error.serverError
+            });
+        }
+    });
+
+    function submitForm(data: TestSettingsSchema, event: React.BaseSyntheticEvent) {
+        const action = (event.nativeEvent as SubmitEvent).submitter?.getAttribute('value');
+
+        if (action === 'search') {
+            searchHoroscope(data);
+        } else {
+            getHoroscope(data);
+        }
     }
 
     return (
         <>
             <FormProvider {...methods}>
-                <form ref={formRef} onSubmit={handleSubmit(submitForm)}>
+                <form ref={formRef} onSubmit={(e) => handleSubmit((data) => submitForm(data, e))(e)}>
                     <VStack gap={10}>
                         <Stack gap={4} w="full">
                             <InputLabel label="Sign" name="sign">
@@ -74,9 +99,29 @@ export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettings
                                 <Input type="date" {...register('date')} />
                             </InputLabel>
                         </Stack>
-                        <Button type="submit" disabled={isSaving} variant="solid" colorScheme="yellow">
-                            {isSaving ? 'Generating...' : 'Generate & Save Horoscope'}
-                        </Button>
+                        <HStack gap={4} w="full">
+                            <Button
+                                type="submit"
+                                value="generate"
+                                disabled={isSaving}
+                                variant="solid"
+                                colorScheme="yellow"
+                                flex={1}
+                            >
+                                {isSaving ? 'Generating...' : 'Generate & Save'}
+                            </Button>
+
+                            <Button
+                                type="submit"
+                                value="search"
+                                disabled={isSearching}
+                                variant="solid"
+                                colorScheme="blue"
+                                flex={1}
+                            >
+                                {isSearching ? 'Searching...' : 'Search Horoscopes'}
+                            </Button>
+                        </HStack>
                     </VStack>
                 </form>
             </FormProvider>
