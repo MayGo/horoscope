@@ -13,6 +13,7 @@
 - [x] Add my horoscope page
 - [x] Add Loaders
 - [x] Redesign daily horoscope to include affirmations and daily insights
+- [ ] Add previous days daily insights to horoscope generation, so we get different horoscopes each day
 - [ ] Add timezone to email sending time
 - [ ] Keep horoscope keyed by day
 - [ ] Keep horoscopes for 7 days in redis
@@ -32,6 +33,19 @@ This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3
 - [Supabase](https://supabase.com/)
 - [React Email](https://react.email/)
 - [Resend](https://resend.com/)
+
+## Environment Variables
+
+The following environment variables need to be configured:
+
+- **Database**: Use Supabase with Supavisor for connection pooling
+- **Authentication**: Clerk.com for user management
+- **AI**: OpenAI API for horoscope generation
+- **Caching**: Upstash Redis for temporary storage
+- **Email**: Resend.com for transactional emails
+- **Cron Jobs**: Vercel-edge configured cron tasks
+
+See `.env.example` for complete configuration reference. Get credentials from respective service dashboards.
 
 ## Learn More
 
