@@ -1,14 +1,12 @@
 'use server';
 import { auth } from '@clerk/nextjs/server';
-import { eq } from 'drizzle-orm';
 import { flattenValidationErrors } from 'next-safe-action';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import 'server-only';
-import { db } from '~/server/db/db';
-import { userSettings } from '~/server/db/schema';
 import { actionClient } from '../../utils/safe-action';
 import { type UserSettingsSchema, userSettingsSchema } from '../../validations/userSettings.validation';
+import { upsertUserSettings } from '../db/userSettings.queries';
 
 export const saveUserSettingsAction = actionClient
     .metadata({ actionName: 'saveUserSettingsAction' })
@@ -20,29 +18,12 @@ export const saveUserSettingsAction = actionClient
             throw new Error('Name cannot be test');
         }
 
-        const authUser = await auth();
-        if (!authUser.userId) {
+        const { userId } = await auth();
+        if (!userId) {
             throw new Error('User not authenticated');
         }
 
-        const existingSettings = (
-            await db.select().from(userSettings).where(eq(userSettings.userId, authUser.userId))
-        )[0];
-
-        if (!existingSettings) {
-            await db.insert(userSettings).values({
-                userId: authUser.userId,
-                ...parsedInput
-            });
-        } else {
-            await db
-                .update(userSettings)
-                .set({
-                    userId: authUser.userId,
-                    ...parsedInput
-                })
-                .where(eq(userSettings.userId, authUser.userId));
-        }
+        await upsertUserSettings(userId, parsedInput);
 
         revalidatePath('/my-horoscope', 'page');
         redirect('/my-horoscope');

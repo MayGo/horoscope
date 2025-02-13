@@ -7,8 +7,8 @@ import { testSettingsSchema, type TestSettingsSchema } from '~/validations/testS
 import { actionClient } from '../../utils/safe-action';
 import { makeGeneralHoroscope } from '../business/business.general';
 
-export const generateHoroscopeAction = actionClient
-    .metadata({ actionName: 'generateHoroscopeAction' })
+export const makeGeneralHoroscopeAction = actionClient
+    .metadata({ actionName: 'makeGeneralHoroscopeAction' })
     .schema(testSettingsSchema, {
         handleValidationErrorsShape: async (ve) => flattenValidationErrors(ve).fieldErrors
     })
