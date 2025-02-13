@@ -39,6 +39,7 @@ export default function Horoscope({ dailyHoroscope }: { dailyHoroscope: Horoscop
             <Heading as="h3" size="xl" pt={4}>
                 Daily Insights
             </Heading>
+
             <DailyInsights dailyInsights={dailyHoroscope.dailyInsights} />
         </VStack>
     );
@@ -46,7 +47,7 @@ export default function Horoscope({ dailyHoroscope }: { dailyHoroscope: Horoscop
 
 const DailyInsights = ({ dailyInsights }: { dailyInsights: DailyInsightSchema[] }) => {
     return (
-        <SimpleGrid columns={[2, 3, 3]} gap={4} maxW="550px" mt={2}>
+        <SimpleGrid columns={[2, 3, 4, 4]} gap={4} mt={2}>
             {dailyInsights.map((insight, index) => (
                 <Box key={index} border="1px dashed" borderColor="gray.200" p={4} textAlign="center" borderRadius="l1">
                     {insight && (

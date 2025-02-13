@@ -4,6 +4,7 @@ import Horoscope from '~/app/my-horoscope/Horoscope';
 import { MessageBox } from '~/components/MessageBox';
 import { findTodaysDailyHoroscope } from '~/server/redis/redisQueries';
 import { type HoroscopeSignType } from '~/utils/values';
+
 interface SelectedSignProps {
     name: HoroscopeSignType;
 }
