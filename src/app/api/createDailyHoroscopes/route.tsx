@@ -6,6 +6,7 @@ import { getUserEmail } from '~/server/clerk/clerkQueries';
 import { db } from '~/server/db/db';
 import { userSettings } from '~/server/db/schema';
 import { sendEmail } from '~/server/email/resend';
+import { createScheduledAt } from '~/server/email/resend.utils';
 import { createAndSaveDailyHoroscope, createAndSaveUserDailyHoroscope } from '~/server/openai/ai';
 import { getUserDailyHoroscope } from '~/server/redis/redisQueries';
 import { extractDateString } from '~/utils/date.utils';
@@ -76,7 +77,11 @@ async function sendDailyHoroscopeEmails() {
 
         if (dailyHoroscope) {
             const emailHtml = await render(<DailyHoroscopeEmail name={user.name} dailyHoroscope={dailyHoroscope} />);
-            await sendEmail(email, subject, emailHtml, user.emailTime);
+            const { timezone, emailTime } = user;
+
+            const scheduledAt = createScheduledAt(emailTime, timezone);
+
+            await sendEmail(email, subject, emailHtml, scheduledAt);
         } else {
             console.error('No daily horoscope found for user', user.userId);
         }

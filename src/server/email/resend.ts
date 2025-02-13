@@ -6,38 +6,9 @@ import DailyHoroscopeEmail from '~/components/emails/DailyHoroscopeEmail';
 import { env } from '~/env';
 import { getUserEmail } from '../clerk/clerkQueries';
 import { findMyDailyHoroscope } from '../redis/redisQueries';
+import { generateEntityRefId } from './resend.utils';
 
 const resend = new Resend(env.RESEND_API_KEY);
-
-const parseTime = (time: string) => {
-    const [hours, minutes] = time.split(':').map(Number);
-    return {
-        hours: hours ?? 0,
-        minutes: minutes ?? 0
-    };
-};
-
-function createScheduledAt(time?: string) {
-    // time is in format 14:00
-    if (!time) return undefined;
-
-    const { hours, minutes } = parseTime(time);
-
-    const date = new Date();
-    date.setHours(hours);
-    date.setMinutes(minutes);
-
-    if (date < new Date()) {
-        console.log('Date is in the past, returning undefined');
-        return undefined;
-    }
-
-    return date.toISOString();
-}
-
-const generateEntityRefId = () => {
-    return `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
-};
 
 export const sendTestEmail = async () => {
     const authUser = await auth();
@@ -66,15 +37,16 @@ export const sendTestEmail = async () => {
         console.error('No daily horoscope found for user');
     }
 };
-export const sendEmail = async (to: string, subject: string, html: string, time?: string) => {
-    console.log(`Sending email to ${to} at ${createScheduledAt(time) ?? 'now'}`);
+
+export const sendEmail = async (to: string, subject: string, html: string, scheduledAt?: string) => {
+    console.log(`Sending email to ${to} at ${scheduledAt ?? 'now'}`);
 
     await resend.emails.send({
         from: env.RESEND_FROM_EMAIL,
         to: to,
         subject: subject,
         html: html,
-        scheduledAt: createScheduledAt(time),
+        scheduledAt,
         headers: {
             'X-Entity-Ref-ID': generateEntityRefId()
         }

@@ -3,6 +3,7 @@ import { HoroscopeAge, HoroscopeLength, HoroscopeSigns, TimeOfDay } from '~/util
 
 export const userSettingsSchema = z.object({
     name: z.string().min(2, { message: 'Name/Nickname is required' }),
+    timezone: z.string().optional(),
     emailTime: z.nativeEnum(TimeOfDay).optional(),
     horoscopeAge: z.nativeEnum(HoroscopeAge).optional(),
     horoscopeLength: z.nativeEnum(HoroscopeLength).optional(),

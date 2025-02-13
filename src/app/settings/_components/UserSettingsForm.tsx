@@ -27,7 +27,8 @@ const defaultValues = {
     countryOfBirth: '',
     dateOfBirth: '',
     timeOfBirth: undefined,
-    sendEmailAllowed: false
+    sendEmailAllowed: false,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
 };
 
 export const UserSettingsForm = ({ data = defaultValues }: { data?: UserSettingsSchema }) => {
@@ -38,7 +39,8 @@ export const UserSettingsForm = ({ data = defaultValues }: { data?: UserSettings
         mode: 'onTouched',
         resolver: zodResolver(userSettingsSchema),
         defaultValues: {
-            ...data
+            ...data,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
         }
     });
 

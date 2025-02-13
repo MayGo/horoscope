@@ -4,6 +4,7 @@ import { HoroscopeAge, HoroscopeLength, HoroscopeSigns, TimeOfDay } from '~/util
 export const userSettings = pgTable('user_settings', {
     userId: varchar('user_id', { length: 255 }).notNull().primaryKey(),
     name: varchar('name', { length: 255 }).notNull().default(''),
+    timezone: varchar('timezone', { length: 255 }).notNull().default('UTC'),
     emailTime: varchar('email_time', { length: 5 }).notNull().default(TimeOfDay.T00_00),
     horoscopeAge: varchar('horoscope_age', { length: 255 }).notNull().default(HoroscopeAge.Today),
     horoscopeLength: varchar('horoscope_length', { length: 255 }).notNull().default(HoroscopeLength.Short),
