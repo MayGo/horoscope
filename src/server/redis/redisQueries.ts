@@ -5,6 +5,8 @@ import { createAndSaveUserDailyHoroscope } from '../openai/ai';
 import { kv } from './redisClient';
 import { getDailyHoroscopeKey, getUserDailyHoroscopeKey } from './redisUtils';
 
+const HOROSCOPE_TTL = 7 * 60 * 60 * 24; // 7 days
+
 export const getDailyHoroscope = async (sign: HoroscopeSignType, date: Date) => {
     const key = getDailyHoroscopeKey(sign, date);
     const horoscope = await kv.get(key);
@@ -18,7 +20,7 @@ export const getTodaysDailyHoroscope = async (sign: HoroscopeSignType) => {
 
 export const saveDailyHoroscope = async (sign: HoroscopeSignType, date: Date, horoscope: HoroscopeResultsSchema) => {
     const key = getDailyHoroscopeKey(sign, date);
-    await kv.set(key, horoscope);
+    await kv.set(key, horoscope, { ex: HOROSCOPE_TTL });
 };
 
 export const getUserDailyHoroscope = async (userId: string, date: Date) => {
@@ -55,5 +57,5 @@ export const findMyDailyHoroscope = async () => {
 export const saveUserDailyHoroscope = async (userId: string, horoscope: HoroscopeResultsSchema) => {
     const today = new Date();
     const key = getUserDailyHoroscopeKey(userId, today);
-    await kv.set(key, horoscope);
+    await kv.set(key, horoscope, { ex: HOROSCOPE_TTL });
 };
