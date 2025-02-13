@@ -36,7 +36,7 @@ export default async function Personalization() {
                     </Box>
                 )}
                 {dailyHoroscope ? (
-                    <Horoscope dailyHoroscope={dailyHoroscope} />
+                    <Horoscope horoscope={dailyHoroscope} />
                 ) : (
                     <MessageBox type="warning" content="No horoscope found for today. Please check back later." />
                 )}

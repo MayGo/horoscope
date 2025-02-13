@@ -22,7 +22,7 @@ export async function SelectedSign({ name }: SelectedSignProps) {
 
     return (
         <VStack height="full" gap={8} px={[4, 4, 4, 8]}>
-            <Horoscope dailyHoroscope={dailyHoroscope} />
+            <Horoscope horoscope={dailyHoroscope} />
             <PersonalizedHoroscopeButton />
         </VStack>
     );

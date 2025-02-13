@@ -15,8 +15,9 @@ import { type HoroscopeResultsSchema } from '~/validations/horoscopeResults.vali
 import { testSettingsSchema, type TestSettingsSchema } from '~/validations/testSettings.validation';
 
 import { InputLabel } from '~/components/InputLabel';
+import Horoscope from '../my-horoscope/Horoscope';
 import { horoscopeSignsOptions } from '../settings/_components/UserSettingsForm.utils';
-import { TestResult } from './TestResult';
+import { HoroscopeJSON } from './TestResult';
 
 const defaultValues = {
     sign: HoroscopeSigns.aries,
@@ -24,7 +25,7 @@ const defaultValues = {
 };
 
 export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettingsSchema }) => {
-    const [resultObject, setResultObject] = useState<HoroscopeResultsSchema | null>(null);
+    const [horoscope, setHoroscope] = useState<HoroscopeResultsSchema | null>(null);
     const formRef = useRef<HTMLFormElement>(null);
 
     const methods = useForm<TestSettingsSchema>({
@@ -46,7 +47,7 @@ export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettings
                     description: `Sign: ${data.sign} Date: ${data.date}`
                 });
 
-                setResultObject(data);
+                setHoroscope(data);
             }
         },
         onError({ error }) {
@@ -64,7 +65,7 @@ export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettings
                     title: 'Search Successful! 🔍',
                     description: `Found results for ${data.sign} on ${data.date}`
                 });
-                setResultObject(data);
+                setHoroscope(data);
             }
         },
         onError({ error }) {
@@ -102,6 +103,16 @@ export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettings
                         <HStack gap={4} w="full">
                             <Button
                                 type="submit"
+                                value="search"
+                                disabled={isSearching}
+                                variant="solid"
+                                colorScheme="blue"
+                                flex={1}
+                            >
+                                {isSearching ? 'Searching...' : 'Search Horoscope'}
+                            </Button>
+                            <Button
+                                type="submit"
                                 value="generate"
                                 disabled={isSaving}
                                 variant="solid"
@@ -110,22 +121,16 @@ export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettings
                             >
                                 {isSaving ? 'Generating...' : 'Generate & Save'}
                             </Button>
-
-                            <Button
-                                type="submit"
-                                value="search"
-                                disabled={isSearching}
-                                variant="solid"
-                                colorScheme="blue"
-                                flex={1}
-                            >
-                                {isSearching ? 'Searching...' : 'Search Horoscopes'}
-                            </Button>
                         </HStack>
                     </VStack>
                 </form>
             </FormProvider>
-            {resultObject && <TestResult resultObject={resultObject} />}
+            {horoscope && (
+                <VStack gap={4} mt={10} alignItems="flex-start">
+                    <Horoscope horoscope={horoscope} />
+                    <HoroscopeJSON horoscope={horoscope} />
+                </VStack>
+            )}
         </>
     );
 };

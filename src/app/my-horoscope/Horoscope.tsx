@@ -1,20 +1,20 @@
 import { Box, Flex, Heading, List, ListItem, SimpleGrid, Text, VStack } from '@chakra-ui/react';
 import type { DailyInsightSchema, HoroscopeResultsSchema } from '~/validations/horoscopeResults.validation';
 
-export default function Horoscope({ dailyHoroscope }: { dailyHoroscope: HoroscopeResultsSchema }) {
+export default function Horoscope({ horoscope }: { horoscope: HoroscopeResultsSchema }) {
     return (
         <VStack gap={6} alignItems="flex-start">
             <Flex justifyContent="space-between" justifyItems="center" alignItems="baseline" w="full">
                 <Heading size="3xl" textTransform="capitalize">
-                    {dailyHoroscope.sign}
+                    {horoscope.sign}
                 </Heading>
                 <Text fontSize="md" fontWeight="light">
-                    {dailyHoroscope.date}
+                    {horoscope.date}
                 </Text>
             </Flex>
 
             <List.Root gap={4}>
-                {dailyHoroscope.horoscopes.map((item) => (
+                {horoscope.horoscopes.map((item) => (
                     <ListItem key={item} _marker={{ color: 'yellowColor' }}>
                         <Text fontSize="md" fontWeight="medium" whiteSpace="pre-line">
                             {item}
@@ -27,7 +27,7 @@ export default function Horoscope({ dailyHoroscope }: { dailyHoroscope: Horoscop
                 Affirmations
             </Heading>
             <List.Root gap={4}>
-                {dailyHoroscope.affirmations.map((affirmation) => (
+                {horoscope.affirmations.map((affirmation) => (
                     <ListItem key={affirmation} _marker={{ color: 'yellowColor' }}>
                         <Text fontSize="md" fontWeight="medium" whiteSpace="pre-line">
                             {affirmation}
@@ -40,7 +40,7 @@ export default function Horoscope({ dailyHoroscope }: { dailyHoroscope: Horoscop
                 Daily Insights
             </Heading>
 
-            <DailyInsights dailyInsights={dailyHoroscope.dailyInsights} />
+            <DailyInsights dailyInsights={horoscope.dailyInsights} />
         </VStack>
     );
 }
