@@ -71,7 +71,7 @@ const myConfig = defineConfig({
                 }
             },
             fonts: {
-                body: { value: 'var(--font-roboto), sans-serif' },
+                body: { value: 'var(--font-geist-sans), sans-serif' },
                 heading: { value: 'var(--font-mplus), sans-serif' }
             }
         },

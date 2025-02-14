@@ -8,16 +8,9 @@ import { ThemeProvider } from '~/components/theme/ThemeProvider';
 
 import { ClerkProvider } from '@clerk/nextjs';
 import { Analytics } from '@vercel/analytics/react';
-import { M_PLUS_Rounded_1c, Roboto } from 'next/font/google';
+import { M_PLUS_Rounded_1c } from 'next/font/google';
 import { Suspense } from 'react';
 import { Toaster } from '~/components/ui/Toaster';
-
-const roboto = Roboto({
-    weight: ['400', '500', '700'],
-    subsets: ['latin'],
-    display: 'swap',
-    variable: '--font-roboto'
-});
 
 const mPlusRounded = M_PLUS_Rounded_1c({
     weight: ['300', '500', '700'],
@@ -36,7 +29,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
         <ClerkProvider>
-            <html lang="en" className={`${roboto.variable} ${mPlusRounded.variable}`}>
+            <html lang="en" className={`${GeistSans.variable} ${mPlusRounded.variable}`}>
                 <body className={GeistSans.className}>
                     <ThemeProvider>
                         <Box>
