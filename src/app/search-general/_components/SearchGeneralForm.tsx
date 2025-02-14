@@ -8,8 +8,8 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { Button } from '~/components/ui/button';
 import { SimpleSelect } from '~/components/ui/SimpleSelect';
 import { toaster } from '~/components/ui/Toaster';
-import { makeGeneralHoroscopeAction } from '~/server/actions/generateHoroscopeAction';
 import { getDailyHoroscopeAction } from '~/server/actions/getDailyHoroscopeAction';
+import { makeGeneralHoroscopeAction } from '~/server/actions/makeGeneralHoroscopeAction';
 
 import { HoroscopeSigns } from '~/utils/values';
 import { type HoroscopeResultsSchema } from '~/validations/horoscopeResults.validation';
