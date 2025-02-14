@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { HoroscopeAge, HoroscopeLength, HoroscopeSigns, TimeOfDay } from '~/utils/values';
 
 export const userSettingsSchema = z.object({
-    name: z.string().min(2, { message: 'Name/Nickname is required' }),
+    name: z.string().min(2, { message: 'Name/Nickname is required' }).max(255),
     timezone: z.string().optional(),
     emailTime: z.nativeEnum(TimeOfDay).optional(),
     horoscopeAge: z.nativeEnum(HoroscopeAge).optional(),
@@ -11,6 +11,7 @@ export const userSettingsSchema = z.object({
     countryOfBirth: z.string().optional(),
     dateOfBirth: z.string().optional(),
     timeOfBirth: z.union([z.nativeEnum(TimeOfDay), z.literal('')]).optional(),
+    lifeGoal: z.string().max(255).optional(),
     sendEmailAllowed: z.boolean().optional()
 });
 

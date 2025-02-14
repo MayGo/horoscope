@@ -10,14 +10,14 @@ export default async function AdminLinks() {
 
     return (
         <>
-            <Link href="/test" passHref legacyBehavior>
+            <Link href="/search-general" passHref legacyBehavior>
                 <Button variant="ghost" color="black">
-                    Test
+                    Search General
                 </Button>
             </Link>
-            <Link href="/email" passHref legacyBehavior>
+            <Link href="/search-mine" passHref legacyBehavior>
                 <Button variant="ghost" color="black">
-                    Email Test
+                    Search Mine
                 </Button>
             </Link>
         </>

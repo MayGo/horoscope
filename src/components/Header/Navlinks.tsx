@@ -7,7 +7,7 @@ import AdminLinks from './AdminLinks';
 
 export default function Navlinks() {
     return (
-        <SimpleGrid columns={[1, 1]} gap="4" flex="1" maxW="500px" w="full">
+        <SimpleGrid columns={[1, 1]} gap="4" flex="1" w="full">
             <SignedOut>
                 <HStack gap={4}>
                     <SignInButton>

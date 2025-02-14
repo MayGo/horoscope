@@ -1,7 +1,7 @@
 import { Box, Heading } from '@chakra-ui/react';
 import { UnauthorizedMessage } from '~/components/UnauthorizedMessage';
 import { checkIsAdmin } from '~/server/clerk/clerkQueries';
-import { TestSettingsForm } from './TestSettingsForm';
+import { SearchGeneralForm } from './_components/SearchGeneralForm';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,7 +17,7 @@ export default async function TestPage() {
             <Heading as="h1" mb={4}>
                 Testing Horoscope
             </Heading>
-            <TestSettingsForm />
+            <SearchGeneralForm />
         </Box>
     );
 }

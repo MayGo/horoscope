@@ -10,8 +10,8 @@ export type DailyInsightSchema = z.infer<typeof dailyInsightSchema>;
 export const horoscopeResultsSchema = z.object({
     sign: z.string(),
     date: z.string().describe('Format as July 1, 2022'),
-    horoscopes: z.array(z.string()),
-    affirmations: z.array(z.string()),
+    horoscopes: z.array(z.string()).describe('Give 3 separate horoscope predictions'),
+    affirmations: z.array(z.string()).describe('Give 3 affirmations'),
     dailyInsights: z.array(dailyInsightSchema)
         .describe(`Also answer Daily Insights for that day into dailyInsights. I have Daily Insights with some possible values, answer in same order:
 1. Today's Mood: [Joyful, Reflective, Energetic, Calm, Ambitious]

@@ -17,26 +17,17 @@ import { testSettingsSchema, type TestSettingsSchema } from '~/validations/testS
 
 import { InputLabel } from '~/components/InputLabel';
 import { MessageBox } from '~/components/MessageBox';
-import Horoscope from '../my-horoscope/Horoscope';
-import { horoscopeSignsOptions } from '../settings/_components/UserSettingsForm.utils';
-import { HoroscopeJSON } from './TestResult';
+import { getTomorrowDateStr, getYesterdayDateStr } from '~/utils/date.utils';
+import { horoscopeSignsOptions } from '../../_components/FormOptions.utils';
+import Horoscope from '../../_components/Horoscope';
+import { HoroscopeJSON } from './HoroscopeJSON';
 
 const defaultValues = {
     sign: HoroscopeSigns.aries,
     date: new Date().toISOString().split('T')[0] ?? ''
 };
 
-const getYesterdayDate = (date: Date) => {
-    date.setDate(date.getDate() - 1);
-    return date.toISOString().split('T')[0] ?? '';
-};
-
-const getTomorrowDate = (date: Date) => {
-    date.setDate(date.getDate() + 1);
-    return date.toISOString().split('T')[0] ?? '';
-};
-
-export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettingsSchema }) => {
+export const SearchGeneralForm = ({ data = defaultValues }: { data?: TestSettingsSchema }) => {
     const [horoscope, setHoroscope] = useState<HoroscopeResultsSchema | null>(null);
     const formRef = useRef<HTMLFormElement>(null);
 
@@ -119,7 +110,7 @@ export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettings
                                 variant="outline"
                                 size="sm"
                                 onClick={() => {
-                                    methods.setValue('date', getYesterdayDate(new Date(getValues('date'))));
+                                    methods.setValue('date', getYesterdayDateStr(new Date(getValues('date'))));
                                     void handleSubmit((data) => searchHoroscope(data))();
                                 }}
                             >
@@ -141,7 +132,7 @@ export const TestSettingsForm = ({ data = defaultValues }: { data?: TestSettings
                                 variant="outline"
                                 size="sm"
                                 onClick={() => {
-                                    methods.setValue('date', getTomorrowDate(new Date(getValues('date'))));
+                                    methods.setValue('date', getTomorrowDateStr(new Date(getValues('date'))));
                                     void handleSubmit((data) => searchHoroscope(data))();
                                 }}
                             >

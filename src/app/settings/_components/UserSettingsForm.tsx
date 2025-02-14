@@ -16,7 +16,7 @@ import { upsertUserSettingsAction } from '~/server/actions/upsertUserSettingsAct
 import { HoroscopeAge, HoroscopeLength, HoroscopeSigns, TimeOfDay } from '~/utils/values';
 import { type UserSettingsSchema, userSettingsSchema } from '~/validations/userSettings.validation';
 import { InputLabel } from '../../../components/InputLabel';
-import { horoscopeSignsOptions, timeOfDaysOptions } from './UserSettingsForm.utils';
+import { horoscopeSignsOptions, timeOfDaysOptions } from '../../_components/FormOptions.utils';
 
 const defaultValues = {
     name: '',
@@ -28,7 +28,8 @@ const defaultValues = {
     dateOfBirth: '',
     timeOfBirth: undefined,
     sendEmailAllowed: false,
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    lifeGoal: ''
 };
 
 export const UserSettingsForm = ({ data = defaultValues }: { data?: UserSettingsSchema }) => {
@@ -94,6 +95,16 @@ export const UserSettingsForm = ({ data = defaultValues }: { data?: UserSettings
                         </InputLabel>
                         <InputLabel label="Time of Birth" name="timeOfBirth">
                             <SimpleSelect items={timeOfDaysOptions} label="Time of Birth" name="timeOfBirth" />
+                        </InputLabel>
+                        <InputLabel
+                            label="Life Goal"
+                            name="lifeGoal"
+                            optionalText="What's your main goal in life right now?"
+                        >
+                            <Input
+                                placeholder="e.g., Find a loving partner, Advance in my career, Be a better parent"
+                                {...register('lifeGoal')}
+                            />
                         </InputLabel>
                     </Stack>
                     <Stack gap={4} w="full">

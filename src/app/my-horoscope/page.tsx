@@ -7,7 +7,7 @@ import { Button } from '~/components/ui/button';
 import { getMySettings } from '~/server/db/queries';
 import { findMyDailyHoroscope } from '~/server/redis/userHoroscopeKV.queries';
 import { capitalize } from '~/utils/string.utils';
-import Horoscope from './Horoscope';
+import Horoscope from '../_components/Horoscope';
 
 export default async function Personalization() {
     const mySettings = await getMySettings();

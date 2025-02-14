@@ -1,6 +1,6 @@
 import { Box, VStack } from '@chakra-ui/react';
+import Horoscope from '~/app/_components/Horoscope';
 import { PersonalizedHoroscopeButton } from '~/app/_components/PersonalizedHoroscopeButton';
-import Horoscope from '~/app/my-horoscope/Horoscope';
 import { MessageBox } from '~/components/MessageBox';
 import { getTodaysDailyHoroscope } from '~/server/redis/dailyHoroscopeKV.queries';
 import { type HoroscopeSignType } from '~/utils/values';
