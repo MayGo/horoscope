@@ -4,6 +4,7 @@ import { db } from './db';
 import { userSettings } from './schema';
 
 export async function upsertUserSettings(userId: string, settings: UserSettingsSchema) {
+    console.log('Upserting user settings for user:', userId);
     const existingSettings = (await db.select().from(userSettings).where(eq(userSettings.userId, userId)))[0];
 
     if (!existingSettings) {
@@ -11,6 +12,7 @@ export async function upsertUserSettings(userId: string, settings: UserSettingsS
             userId,
             ...settings
         });
+        console.log('User settings created successfully');
     } else {
         await db
             .update(userSettings)
@@ -19,5 +21,6 @@ export async function upsertUserSettings(userId: string, settings: UserSettingsS
                 ...settings
             })
             .where(eq(userSettings.userId, userId));
+        console.log('User settings updated successfully');
     }
 }

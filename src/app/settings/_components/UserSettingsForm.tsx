@@ -8,7 +8,6 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { MessageBox } from '~/components/MessageBox';
 import { Button } from '~/components/ui/button';
 
-import { useRouter } from 'next/navigation';
 import { SimpleCheckbox } from '~/components/ui/SimpleCheckbox';
 import { SimpleSelect } from '~/components/ui/SimpleSelect';
 import { toaster } from '~/components/ui/Toaster';
@@ -35,11 +34,10 @@ const defaultValues = {
 };
 
 export const UserSettingsForm = ({ data = defaultValues }: { data?: UserSettingsSchema }) => {
-    const router = useRouter();
     const formRef = useRef<HTMLFormElement>(null);
 
     const methods = useForm<UserSettingsSchema>({
-        mode: 'onTouched',
+        mode: 'onChange',
         resolver: zodResolver(userSettingsSchema),
         defaultValues: {
             ...data,
@@ -68,8 +66,6 @@ export const UserSettingsForm = ({ data = defaultValues }: { data?: UserSettings
 
     async function submitForm(data: UserSettingsSchema) {
         executeSave(data);
-
-        router.push('/my-horoscope');
     }
 
     return (

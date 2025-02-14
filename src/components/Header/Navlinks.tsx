@@ -26,8 +26,10 @@ export default function Navlinks() {
                             My Horoscope
                         </Button>
                     </Link>
-                    <Flex boxSize={11} borderRadius="full" bg="yellow.100" alignItems="center" justifyContent="center">
-                        <UserButton />
+                    <Flex boxSize={11} borderRadius="full" bg="yellow.300" alignItems="center" justifyContent="center">
+                        <Flex p={1} borderRadius="full" alignItems="center" bg="white" justifyContent="center">
+                            <UserButton />
+                        </Flex>
                     </Flex>
                 </HStack>
             </SignedIn>
