@@ -13,16 +13,18 @@ import { SimpleCheckbox } from '~/components/ui/SimpleCheckbox';
 import { SimpleSelect } from '~/components/ui/SimpleSelect';
 import { toaster } from '~/components/ui/Toaster';
 import { upsertUserSettingsAction } from '~/server/actions/upsertUserSettingsAction';
-import { HoroscopeAge, HoroscopeLength, HoroscopeSigns, TimeOfDay } from '~/utils/values';
+import { HoroscopeAge, HoroscopeLength, HoroscopeSigns, HoroscopeStyle, TimeOfDay } from '~/utils/values';
 import { type UserSettingsSchema, userSettingsSchema } from '~/validations/userSettings.validation';
 import { InputLabel } from '../../../components/InputLabel';
-import { horoscopeSignsOptions, timeOfDaysOptions } from '../../_components/FormOptions.utils';
+import { horoscopeSignsOptions, horoscopeStylesOptions, timeOfDaysOptions } from '../../_components/FormOptions.utils';
+import { HoroscopeStylePreview } from './HoroscopeStylePreview';
 
 const defaultValues = {
     name: '',
     emailTime: TimeOfDay.T09_00,
     horoscopeAge: HoroscopeAge.Today,
     horoscopeLength: HoroscopeLength.Short,
+    horoscopeStyle: HoroscopeStyle.Direct,
     sign: HoroscopeSigns.aries,
     countryOfBirth: '',
     dateOfBirth: '',
@@ -74,8 +76,6 @@ export const UserSettingsForm = ({ data = defaultValues }: { data?: UserSettings
         <FormProvider {...methods}>
             <form ref={formRef} onSubmit={handleSubmit(submitForm)} style={{ width: '100%' }}>
                 <VStack gap={10} w="full" px={4}>
-                    {/* <DisplayServerActionResponse result={saveResult} /> */}
-
                     <Stack gap={4} w="full">
                         <Heading size="4xl" fontWeight="100" textAlign="center" pb={6}>
                             Personalization Settings
@@ -96,6 +96,17 @@ export const UserSettingsForm = ({ data = defaultValues }: { data?: UserSettings
                         <InputLabel label="Time of Birth" name="timeOfBirth">
                             <SimpleSelect items={timeOfDaysOptions} label="Time of Birth" name="timeOfBirth" />
                         </InputLabel>
+                        {/* <InputLabel label="Horoscope Age" name="horoscopeAge">
+                            <SimpleSelect items={horoscopeAgesOptions} label="Horoscope Age" name="horoscopeAge" />
+                        </InputLabel> */}
+                        <InputLabel label="Horoscope Style" name="horoscopeStyle">
+                            <SimpleSelect
+                                items={horoscopeStylesOptions}
+                                label="Horoscope Style"
+                                name="horoscopeStyle"
+                            />
+                        </InputLabel>
+                        <HoroscopeStylePreview />
                         <InputLabel
                             label="Life Goal"
                             name="lifeGoal"
@@ -119,16 +130,6 @@ export const UserSettingsForm = ({ data = defaultValues }: { data?: UserSettings
                         <InputLabel label="Send email at" name="emailTime" optionalText=" *">
                             <SimpleSelect items={timeOfDaysOptions} label="Email Time" name="emailTime" />
                         </InputLabel>
-                        {/* <InputLabel label="Horoscope Age" name="horoscopeAge">
-                            <SimpleSelect items={horoscopeAgesOptions} label="Horoscope Age" name="horoscopeAge" />
-                        </InputLabel>
-                        <InputLabel label="Horoscope Length" name="horoscopeLength">
-                            <SimpleSelect
-                                items={horoscopeLengthsOptions}
-                                label="Horoscope Length"
-                                name="horoscopeLength"
-                            />
-                        </InputLabel> */}
                     </Stack>
 
                     <Button type="submit" disabled={isSaving} variant="solid" colorScheme="yellow">

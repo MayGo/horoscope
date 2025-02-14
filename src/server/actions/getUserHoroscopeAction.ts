@@ -5,10 +5,10 @@ import 'server-only';
 import { testSettingsSchema, type TestSettingsSchema } from '~/validations/testSettings.validation';
 import { actionClient } from '../../utils/safe-action';
 import { checkIsAdmin } from '../clerk/clerkQueries';
-import { dailyHoroscopeKV } from '../redis/dailyHoroscopeKV';
+import { userHoroscopeKV } from '../redis/userHoroscopeKV';
 
-export const getDailyHoroscopeAction = actionClient
-    .metadata({ actionName: 'getDailyHoroscopeAction' })
+export const getUserHoroscopeAction = actionClient
+    .metadata({ actionName: 'getUserHoroscopeAction' })
     .schema(testSettingsSchema, {
         handleValidationErrorsShape: async (ve) => flattenValidationErrors(ve).fieldErrors
     })
@@ -24,15 +24,11 @@ export const getDailyHoroscopeAction = actionClient
 
         const date = new Date(parsedInput.date);
 
-        if (parsedInput.sign) {
-            const result = await dailyHoroscopeKV.get(parsedInput.sign, date);
+        const result = await userHoroscopeKV.get(authUser.userId, date);
 
-            if (!result) {
-                throw new Error('Failed to find horoscope');
-            }
-
-            return result;
-        } else {
-            throw new Error('Select a sign to search for');
+        if (!result) {
+            throw new Error('Failed to find horoscope');
         }
+
+        return result;
     });

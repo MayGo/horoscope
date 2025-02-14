@@ -1,12 +1,13 @@
 import { Flex } from '@chakra-ui/react';
-import { Skeleton, SkeletonText } from '~/components/ui/skeleton';
+import { Skeleton } from '~/components/ui/skeleton';
+import { HoroscopeLoader } from '../_components/HoroscopeLoader';
 
-export default function SettingsSkeleton() {
+export default function MyHoroscopeSkeleton() {
     return (
-        <Flex flexDirection="column" py={6} pt={10} justifySelf="center" maxW="550px" w="full">
+        <Flex flexDirection="column" py={6} pt={10} justifySelf="center" w="full">
             <Flex flexDirection="column" gap={8} px={4}>
-                <Skeleton height={10} mb={4} />
-                <SkeletonText noOfLines={5} gap={6} />
+                <Skeleton height={10} mb={4} w="300px" alignSelf="center" />
+                <HoroscopeLoader />
             </Flex>
         </Flex>
     );

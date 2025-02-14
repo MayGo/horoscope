@@ -4,11 +4,11 @@ import { flattenValidationErrors } from 'next-safe-action';
 import 'server-only';
 import { testSettingsSchema, type TestSettingsSchema } from '~/validations/testSettings.validation';
 import { actionClient } from '../../utils/safe-action';
+import { makeUserHoroscope } from '../business/business.user';
 import { checkIsAdmin } from '../clerk/clerkQueries';
-import { dailyHoroscopeKV } from '../redis/dailyHoroscopeKV';
 
-export const getDailyHoroscopeAction = actionClient
-    .metadata({ actionName: 'getDailyHoroscopeAction' })
+export const makeUserHoroscopeAction = actionClient
+    .metadata({ actionName: 'makeUserHoroscopeAction' })
     .schema(testSettingsSchema, {
         handleValidationErrorsShape: async (ve) => flattenValidationErrors(ve).fieldErrors
     })
@@ -22,17 +22,13 @@ export const getDailyHoroscopeAction = actionClient
             throw new Error('User is not an admin');
         }
 
-        const date = new Date(parsedInput.date);
+        console.log('Making user horoscope', parsedInput);
 
-        if (parsedInput.sign) {
-            const result = await dailyHoroscopeKV.get(parsedInput.sign, date);
+        const result = await makeUserHoroscope(authUser.userId);
 
-            if (!result) {
-                throw new Error('Failed to find horoscope');
-            }
-
-            return result;
-        } else {
-            throw new Error('Select a sign to search for');
+        if (!result) {
+            throw new Error('Failed to generate horoscope');
         }
+
+        return result;
     });

@@ -4,6 +4,14 @@ export const HoroscopeLength = {
     Long: 'Long'
 } as const;
 
+export const HoroscopeStyle = {
+    Playful: 'Playful & Light',
+    Mystical: 'Mystical & Deep',
+    Direct: 'Clear & Direct'
+} as const;
+
+export type HoroscopeStyleType = (typeof HoroscopeStyle)[keyof typeof HoroscopeStyle];
+
 export type HoroscopeLengthType = (typeof HoroscopeLength)[keyof typeof HoroscopeLength];
 
 export const HoroscopeAge = {
