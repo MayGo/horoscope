@@ -18,15 +18,17 @@ export const HoroscopeStylePreview = () => {
     const { watch } = useFormContext<UserSettingsSchema>();
     const selectedStyle = watch('horoscopeStyle');
 
+    if (!selectedStyle) {
+        return null;
+    }
+
     return (
         <Box p={4} borderRadius="md" bg="blackAlpha.50" _dark={{ bg: 'whiteAlpha.50' }} w="full">
             <Text fontSize="sm" color="gray.600" _dark={{ color: 'gray.400' }} mb={2}>
                 Preview of selected style:
             </Text>
             <Text fontSize="sm" fontStyle="italic">
-                {selectedStyle
-                    ? previewStyles[selectedStyle as HoroscopeStyleType]
-                    : 'Select a style to see a preview...'}
+                {previewStyles[selectedStyle as HoroscopeStyleType]}
             </Text>
         </Box>
     );

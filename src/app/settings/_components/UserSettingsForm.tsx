@@ -1,6 +1,6 @@
 'use client';
 
-import { Heading, Input, Stack, VStack } from '@chakra-ui/react';
+import { Heading, Input, Stack, Textarea, VStack } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAction } from 'next-safe-action/hooks';
 import { useRef } from 'react';
@@ -96,6 +96,13 @@ export const UserSettingsForm = ({ data = defaultValues }: { data?: UserSettings
                         <InputLabel label="Time of Birth" name="timeOfBirth">
                             <SimpleSelect items={timeOfDaysOptions} label="Time of Birth" name="timeOfBirth" />
                         </InputLabel>
+                        <InputLabel label="What's your main goal in life right now?" name="lifeGoal">
+                            <Textarea
+                                placeholder="e.g. Adopt a healthier lifestyle. Find a loving partner. Advance in my career. Start a business. Be a better parent. Find my true calling."
+                                rows={3}
+                                {...register('lifeGoal')}
+                            />
+                        </InputLabel>
                         {/* <InputLabel label="Horoscope Age" name="horoscopeAge">
                             <SimpleSelect items={horoscopeAgesOptions} label="Horoscope Age" name="horoscopeAge" />
                         </InputLabel> */}
@@ -107,16 +114,6 @@ export const UserSettingsForm = ({ data = defaultValues }: { data?: UserSettings
                             />
                         </InputLabel>
                         <HoroscopeStylePreview />
-                        <InputLabel
-                            label="Life Goal"
-                            name="lifeGoal"
-                            optionalText="What's your main goal in life right now?"
-                        >
-                            <Input
-                                placeholder="e.g., Find a loving partner, Advance in my career, Be a better parent"
-                                {...register('lifeGoal')}
-                            />
-                        </InputLabel>
                     </Stack>
                     <Stack gap={4} w="full">
                         <Heading size="4xl" fontWeight="100" textAlign="center" pb={6}>

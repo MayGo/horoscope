@@ -21,13 +21,11 @@ export const horoscopeSignsOptions = [
     }))
 ];
 
-export const horoscopeStylesOptions = [
-    { label: '-', value: '' },
-    ...Object.values(HoroscopeStyle).map((style) => ({
-        label: capitalize(style as string),
-        value: style as string
-    }))
-];
+export const horoscopeStylesOptions = Object.values(HoroscopeStyle).map((style) => ({
+    label: capitalize(style as string),
+    value: style as string
+}));
+
 export const timeOfDaysOptions = [
     { label: '-', value: '' },
     ...Object.values(TimeOfDay).map((time) => ({

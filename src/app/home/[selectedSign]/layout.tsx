@@ -9,7 +9,6 @@ export default async function HomeLayout({
 }: Readonly<{ params: Promise<{ selectedSign: string }>; children: React.ReactNode }>) {
     const selectedSign = (await params).selectedSign;
 
-    console.log('selectedSign in home layout........', selectedSign);
     return (
         <Flex flexDirection="column" gap={6} py={6}>
             <Hero />
