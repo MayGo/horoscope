@@ -17,7 +17,7 @@ export function SignItem({ name, dateRange, image, isSelected }: SignItemProps) 
                 borderRadius="2xl"
                 borderColor={isSelected ? 'yellowColor' : 'transparent'}
                 bg={isSelected ? 'yellowColorBg' : 'transparent'}
-                _hover={{ bg: 'yellowColorBg', borderColor: 'transparent' }}
+                _hover={{ bg: 'yellow.50' }}
                 gap={0}
                 pb={2}
             >

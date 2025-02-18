@@ -19,7 +19,15 @@ export default function DailyHoroscopeEmail({
                 Daily Horoscope for {dailyHoroscope.sign} on {dailyHoroscope.date}
             </Preview>
             <Body style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#f9f9f9', color: mainGray }}>
-                <Container style={{ padding: '20px', backgroundColor: '#ffffff', borderRadius: '8px' }}>
+                <Container
+                    style={{
+                        margin: '4px auto',
+                        padding: '20px',
+                        backgroundColor: '#ffffff',
+                        borderRadius: '8px',
+                        maxWidth: '600px'
+                    }}
+                >
                     <Section style={imageSection}>
                         <Img width={48} height={48} src={`${baseUrl}/horoscope-icon.png`} />
                     </Section>
