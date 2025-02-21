@@ -12,7 +12,7 @@ import { SimpleCheckbox } from '~/components/ui/SimpleCheckbox';
 import { SimpleSelect } from '~/components/ui/SimpleSelect';
 import { toaster } from '~/components/ui/Toaster';
 import { upsertUserSettingsAction } from '~/server/actions/upsertUserSettingsAction';
-import { HoroscopeAge, HoroscopeLength, HoroscopeSigns, HoroscopeStyle, TimeOfDay } from '~/utils/values';
+import { HoroscopeAge, HoroscopeLength, HoroscopeStyle, TimeOfDay } from '~/utils/values';
 import { type UserSettingsSchema, userSettingsSchema } from '~/validations/userSettings.validation';
 import { InputLabel } from '../../../components/InputLabel';
 import { horoscopeSignsOptions, horoscopeStylesOptions, timeOfDaysOptions } from '../../_components/FormOptions.utils';
@@ -24,7 +24,7 @@ const defaultValues = {
     horoscopeAge: HoroscopeAge.Today,
     horoscopeLength: HoroscopeLength.Short,
     horoscopeStyle: HoroscopeStyle.Direct,
-    sign: HoroscopeSigns.aries,
+    sign: undefined,
     countryOfBirth: '',
     dateOfBirth: '',
     timeOfBirth: undefined,
