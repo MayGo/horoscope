@@ -11,6 +11,7 @@ import { Analytics } from '@vercel/analytics/react';
 import { M_PLUS_Rounded_1c } from 'next/font/google';
 import { Suspense } from 'react';
 import { Toaster } from '~/components/ui/Toaster';
+import { getURL } from '~/utils/helpers';
 
 const mPlusRounded = M_PLUS_Rounded_1c({
     weight: ['300', '500', '700'],
@@ -19,12 +20,53 @@ const mPlusRounded = M_PLUS_Rounded_1c({
     variable: '--font-mplus',
     preload: false // Add this to prevent the font loading error
 });
-
-export const metadata: Metadata = {
-    title: 'Horoscope',
-    description: 'Horoscope App',
-    icons: [{ rel: 'icon', url: '/favicon.ico' }]
+const meta = {
+    title: 'Horoscope AI - Your Personal Astrological Guide',
+    description:
+        'Get personalized daily horoscopes powered by AI. Choose your style - playful, mystical, or direct - and receive custom astrological guidance tailored to your zodiac sign and preferences.',
+    cardImage: '/og.png',
+    robots: 'follow, index',
+    favicon: '/favicon.ico',
+    url: getURL()
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+    return {
+        title: meta.title,
+        description: meta.description,
+        referrer: 'origin-when-cross-origin',
+        keywords: [
+            'Horoscope',
+            'Astrology',
+            'AI Horoscope',
+            'Daily Horoscope',
+            'Zodiac Signs',
+            'Personalized Horoscope'
+        ],
+        authors: [{ name: 'Horoscope AI', url: 'https://horoscope.trimatech.dev/' }],
+        creator: 'Horoscope AI',
+        publisher: 'Horoscope AI',
+        robots: meta.robots,
+        icons: { icon: meta.favicon },
+        metadataBase: new URL(meta.url),
+        openGraph: {
+            url: meta.url,
+            title: meta.title,
+            description: meta.description,
+            images: [meta.cardImage],
+            type: 'website',
+            siteName: meta.title
+        },
+        twitter: {
+            card: 'summary_large_image',
+            site: '@HoroscopeAI',
+            creator: '@HoroscopeAI',
+            title: meta.title,
+            description: meta.description,
+            images: [meta.cardImage]
+        }
+    };
+}
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
