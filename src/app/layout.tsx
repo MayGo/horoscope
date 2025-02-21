@@ -20,6 +20,7 @@ const mPlusRounded = M_PLUS_Rounded_1c({
     variable: '--font-mplus',
     preload: false // Add this to prevent the font loading error
 });
+
 const meta = {
     title: 'Horoscope AI - Your Personal Astrological Guide',
     description:

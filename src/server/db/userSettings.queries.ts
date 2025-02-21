@@ -24,3 +24,9 @@ export async function upsertUserSettings(userId: string, settings: UserSettingsS
         console.log('User settings updated successfully');
     }
 }
+
+export async function deleteUserSettings(userId: string) {
+    console.log('Deleting user settings for user:', userId);
+    await db.delete(userSettings).where(eq(userSettings.userId, userId));
+    console.log('User settings deleted successfully');
+}
