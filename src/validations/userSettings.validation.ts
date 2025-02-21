@@ -8,7 +8,7 @@ export const userSettingsSchema = z.object({
     horoscopeAge: z.nativeEnum(HoroscopeAge).optional(),
     horoscopeLength: z.nativeEnum(HoroscopeLength).optional(),
     horoscopeStyle: z.nativeEnum(HoroscopeStyle).optional(),
-    sign: z.nativeEnum(HoroscopeSigns),
+    sign: z.union([z.nativeEnum(HoroscopeSigns), z.literal('')]),
     countryOfBirth: z.string().max(50).optional(),
     dateOfBirth: z.string().optional(),
     timeOfBirth: z.union([z.nativeEnum(TimeOfDay), z.literal('')]).optional(),

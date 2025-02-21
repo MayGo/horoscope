@@ -3,7 +3,7 @@
 import { Box, Text } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
 import { HoroscopeStyle, type HoroscopeStyleType } from '~/utils/values';
-import { UserSettingsSchema } from '~/validations/userSettings.validation';
+import { type UserSettingsSchema } from '~/validations/userSettings.validation';
 
 const previewStyles: Record<HoroscopeStyleType, string> = {
     [HoroscopeStyle.Playful]:
