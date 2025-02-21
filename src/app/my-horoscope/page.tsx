@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, VStack } from '@chakra-ui/react';
 import { SignedIn } from '@clerk/nextjs';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { ClientRedirectHandler } from '~/components/client-redirect-handler';
 import { MessageBox } from '~/components/MessageBox';
 import { Button } from '~/components/ui/button';
 import { getMySettings } from '~/server/db/queries';
@@ -14,7 +14,7 @@ export default async function Personalization() {
 
     if (!mySettings?.sign) {
         console.info('No settings found. Redirecting to settings.');
-        redirect('/settings');
+        return <ClientRedirectHandler path="/settings" />;
     }
 
     const dailyHoroscope = await findMyDailyHoroscope();
