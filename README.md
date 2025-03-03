@@ -1,4 +1,8 @@
-# Horoscope App
+# Horoscope AI
+
+![Horoscope AI](/public/og.png)
+
+Horoscope AI is a personalized daily horoscope generator powered by artificial intelligence. It creates unique, AI-generated horoscopes tailored to each user's personality, interests, and life circumstances. Horoscopes can be viewed on the web or delivered directly to your email inbox at your preferred time.
 
 ## TODO
 
