@@ -1,10 +1,9 @@
 import { render } from '@react-email/components';
-import { eq } from 'drizzle-orm';
 import React from 'react';
 import DailyHoroscopeEmail from '~/components/emails/DailyHoroscopeEmail';
+import { api } from '../../../convex/_generated/api';
+import { convex } from '~/server/convex/convexClient';
 import { getUserEmail } from '~/server/clerk/clerkQueries';
-import { db } from '~/server/db/db';
-import { userSettings } from '~/server/db/schema';
 import { sendEmail } from '~/server/email/resend';
 import { createScheduledAt } from '~/server/email/resend.utils';
 import { userHoroscopeKV } from '~/server/redis/userHoroscopeKV';
@@ -24,8 +23,7 @@ export async function generateGeneralHoroscopes() {
 }
 
 export async function generateUserHoroscopes() {
-    // refactor this if we get more than 1000 users
-    const allUsers = await db.select().from(userSettings);
+    const allUsers = await convex.query(api.userSettings.getAll, {});
 
     console.log(`Generating horoscopes for ${allUsers.length} users`);
 
@@ -35,7 +33,7 @@ export async function generateUserHoroscopes() {
 }
 
 export async function sendEmailToUsers() {
-    const users = await db.select().from(userSettings).where(eq(userSettings.sendEmailAllowed, true));
+    const users = await convex.query(api.userSettings.getAllEmailOptedIn, {});
 
     const promises = users.map(async (user) => {
         const subject = `Daily Horoscope for ${extractDateString(new Date())}`;

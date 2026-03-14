@@ -1,9 +1,8 @@
 import { auth } from '@clerk/nextjs/server';
-import { eq } from 'drizzle-orm';
 import 'server-only';
+import { api } from '../../../convex/_generated/api';
 import { userSettingsSchema } from '~/validations/userSettings.validation';
-import { db } from './db';
-import { userSettings } from './schema';
+import { convex } from '../convex/convexClient';
 
 export const getMySettings = async () => {
     const authUser = await auth();
@@ -11,24 +10,18 @@ export const getMySettings = async () => {
         throw new Error('User not found');
     }
 
-    const settings = await db.select().from(userSettings).where(eq(userSettings.userId, authUser.userId));
+    const settings = await convex.query(api.userSettings.findByUserId, { userId: authUser.userId });
     if (!settings) {
-        throw new Error('User settings not found');
-    }
-
-    if (settings.length === 0) {
         console.info('User settings not found');
         return null;
     }
 
-    return userSettingsSchema.parse(settings[0]);
+    return userSettingsSchema.parse(settings);
 };
 
 export const findUserSettings = async (userId: string) => {
-    const settings = await db.select().from(userSettings).where(eq(userSettings.userId, userId));
-    if (!settings) {
-        return null;
-    }
+    const settings = await convex.query(api.userSettings.findByUserId, { userId });
+    if (!settings) return null;
 
-    return userSettingsSchema.parse(settings[0]);
+    return userSettingsSchema.parse(settings);
 };

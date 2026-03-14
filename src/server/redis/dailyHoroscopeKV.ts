@@ -1,27 +1,18 @@
+import { api } from '../../../convex/_generated/api';
 import { extractDateString } from '~/utils/date.utils';
 import { capitalize } from '~/utils/string.utils';
 import { type HoroscopeSignType } from '~/utils/values';
 import { type HoroscopeResultsSchema } from '~/validations/horoscopeResults.validation';
-import { kv } from './kv';
+import { convex } from '../convex/convexClient';
 
-const HOROSCOPE_TTL = 7 * 60 * 60 * 24; // 7 days
-
-const getDailyHoroscopeKey = (sign: HoroscopeSignType, date: Date) => {
+const getDailyHoroscope = async (sign: HoroscopeSignType, date: Date): Promise<HoroscopeResultsSchema | null> => {
     const dateStr = extractDateString(date);
-    const key = `horoscope:${dateStr}:${capitalize(sign)}`;
-    return key;
-};
-
-const getDailyHoroscope = async (sign: HoroscopeSignType, date: Date) => {
-    const key = getDailyHoroscopeKey(sign, date);
-    const horoscope = await kv.get(key);
-
-    return horoscope as HoroscopeResultsSchema;
+    return convex.query(api.horoscopes.getGeneralHoroscope, { sign: capitalize(sign), date: dateStr });
 };
 
 const saveDailyHoroscope = async (sign: HoroscopeSignType, date: Date, horoscope: HoroscopeResultsSchema) => {
-    const key = getDailyHoroscopeKey(sign, date);
-    await kv.set(key, horoscope, { ex: HOROSCOPE_TTL });
+    const dateStr = extractDateString(date);
+    await convex.mutation(api.horoscopes.setGeneralHoroscope, { sign: capitalize(sign), date: dateStr, horoscope });
 };
 
 export const dailyHoroscopeKV = {

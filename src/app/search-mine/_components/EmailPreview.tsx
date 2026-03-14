@@ -9,6 +9,7 @@ export async function EmailPreview() {
     const sign = HoroscopeSigns.aries;
     const name = 'John Doe';
     const dailyHoroscope = await getTodaysDailyHoroscope(sign);
+    if (!dailyHoroscope) return null;
     const emailHtml = await render(<DailyHoroscopeEmail name={name} dailyHoroscope={dailyHoroscope} />);
 
     return (
