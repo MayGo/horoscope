@@ -21,11 +21,9 @@ export default function Navlinks() {
             <SignedIn>
                 <HStack gap={4}>
                     <AdminLinks />
-                    <Link href="/my-horoscope" passHref legacyBehavior>
-                        <Button variant="ghost" color="black">
-                            My Horoscope
-                        </Button>
-                    </Link>
+                    <Button asChild variant="ghost" color="black">
+                        <Link href="/my-horoscope">My Horoscope</Link>
+                    </Button>
                     <Flex boxSize={11} borderRadius="full" bg="yellow.300" alignItems="center" justifyContent="center">
                         <Flex p={1} borderRadius="full" alignItems="center" bg="white" justifyContent="center">
                             <UserButton />

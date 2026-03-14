@@ -3,10 +3,10 @@ import { Button } from '~/components/ui/button';
 
 export function PersonalizedHoroscopeButton() {
     return (
-        <NextLink href="/personalization" passHref legacyBehavior>
-            <Button variant="solid" colorScheme="yellow">
+        <Button asChild variant="solid" colorScheme="yellow">
+            <NextLink href="/personalization">
                 Personalized Horoscope
-            </Button>
-        </NextLink>
+            </NextLink>
+        </Button>
     );
 }

@@ -44,9 +44,9 @@ export default async function Personalization() {
 
             <SignedIn>
                 <Flex justifyContent="center" pt={10}>
-                    <Link href="/settings" passHref legacyBehavior>
-                        <Button>Personal Horoscope Settings</Button>
-                    </Link>
+                    <Button asChild>
+                        <Link href="/settings">Personal Horoscope Settings</Link>
+                    </Button>
                 </Flex>
             </SignedIn>
         </VStack>

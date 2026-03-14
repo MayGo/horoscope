@@ -10,17 +10,17 @@ interface SignItemProps {
 
 export function SignItem({ name, dateRange, image, isSelected }: SignItemProps) {
     return (
-        <Link href={`/home/${name}`} passHref legacyBehavior>
-            <VStack
-                as="button"
-                borderWidth={1}
-                borderRadius="2xl"
-                borderColor={isSelected ? 'yellowColor' : 'transparent'}
-                bg={isSelected ? 'yellowColorBg' : 'transparent'}
-                _hover={{ bg: 'yellow.50' }}
-                gap={0}
-                pb={2}
-            >
+        <VStack
+            asChild
+            borderWidth={1}
+            borderRadius="2xl"
+            borderColor={isSelected ? 'yellowColor' : 'transparent'}
+            bg={isSelected ? 'yellowColorBg' : 'transparent'}
+            _hover={{ bg: 'yellow.50' }}
+            gap={0}
+            pb={2}
+        >
+            <Link href={`/home/${name}`}>
                 <Box>
                     <Image src={image} alt={name} w="80px" h="80px" />
                 </Box>
@@ -30,7 +30,7 @@ export function SignItem({ name, dateRange, image, isSelected }: SignItemProps) 
                 <Text fontSize="xx-small" fontWeight="medium">
                     {dateRange}
                 </Text>
-            </VStack>
-        </Link>
+            </Link>
+        </VStack>
     );
 }
