@@ -75,7 +75,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <html lang="en" className={`${GeistSans.variable} ${mPlusRounded.variable}`}>
                 <body className={GeistSans.className}>
                     <ThemeProvider>
-                        <Box bg="white">
+                        <Box>
                             <Box maxW="1000px" mx="auto" px={[0, 2, 4]}>
                                 <HeaderNavbar />
 
