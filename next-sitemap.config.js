@@ -1,4 +1,5 @@
-module.exports = {
+/** @type {import('next-sitemap').IConfig} */
+export default {
     siteUrl: 'https://horoscope.trimatech.dev',
     generateRobotsTxt: true,
     sitemapSize: 7000,
