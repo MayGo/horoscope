@@ -1,25 +1,17 @@
+import { api } from '../../../convex/_generated/api';
 import { extractDateString } from '~/utils/date.utils';
 import { type HoroscopeResultsSchema } from '~/validations/horoscopeResults.validation';
-import { kv } from './kv';
+import { convex } from '../convex/convexClient';
 
-const HOROSCOPE_TTL = 7 * 60 * 60 * 24; // 7 days
-
-const getUserDailyHoroscopeKey = (userId: string, date: Date) => {
+const getUserDailyHoroscope = async (userId: string, date: Date): Promise<HoroscopeResultsSchema | null> => {
     const dateStr = extractDateString(date);
-    const key = `user_horoscope:${userId}:${dateStr}`;
-    return key;
-};
-
-const getUserDailyHoroscope = async (userId: string, date: Date) => {
-    const key = getUserDailyHoroscopeKey(userId, date);
-    const horoscope = await kv.get(key);
-    return horoscope as HoroscopeResultsSchema;
+    return convex.query(api.horoscopes.getUserHoroscope, { userId, date: dateStr });
 };
 
 const saveUserDailyHoroscope = async (userId: string, horoscope: HoroscopeResultsSchema) => {
     const today = new Date();
-    const key = getUserDailyHoroscopeKey(userId, today);
-    await kv.set(key, horoscope, { ex: HOROSCOPE_TTL });
+    const dateStr = extractDateString(today);
+    await convex.mutation(api.horoscopes.setUserHoroscope, { userId, date: dateStr, horoscope });
 };
 
 export const userHoroscopeKV = {

@@ -1,6 +1,6 @@
 import type { HoroscopeResultsSchema } from '~/validations/horoscopeResults.validation';
 
-export const getWhatNotDoGenerate = (previousHoroscope?: HoroscopeResultsSchema) => {
+export const getWhatNotDoGenerate = (previousHoroscope?: HoroscopeResultsSchema | null) => {
     if (!previousHoroscope) {
         return '';
     }
