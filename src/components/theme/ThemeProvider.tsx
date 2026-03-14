@@ -19,7 +19,7 @@ export function ThemeProvider(props: ThemeProviderProps) {
 
     return (
         <ChakraProvider value={sytemTheme}>
-            <ColorModeProvider {...props} />
+            <ColorModeProvider forcedTheme="light" {...props} />
         </ChakraProvider>
     );
 }
