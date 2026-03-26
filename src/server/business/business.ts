@@ -7,19 +7,22 @@ import { getUserEmail } from '~/server/clerk/clerkQueries';
 import { sendEmail } from '~/server/email/resend';
 import { createScheduledAt } from '~/server/email/resend.utils';
 import { userHoroscopeKV } from '~/server/redis/userHoroscopeKV';
-import { extractDateString, getTomorrowsDate } from '~/utils/date.utils';
+import { extractDateString } from '~/utils/date.utils';
 import { HoroscopeSigns } from '~/utils/values';
 import { makeGeneralHoroscope } from './business.general';
 import { makeUserHoroscope } from './business.user';
 
 export async function generateGeneralHoroscopes() {
-    const date = getTomorrowsDate();
+    const date = new Date();
 
-    const promises = Object.values(HoroscopeSigns).map(async (sign) => {
-        return makeGeneralHoroscope(sign, date);
-    });
+    const results = await Promise.allSettled(
+        Object.values(HoroscopeSigns).map((sign) => makeGeneralHoroscope(sign, date))
+    );
 
-    await Promise.all(promises);
+    const failed = results.filter((r) => r.status === 'rejected');
+    if (failed.length > 0) {
+        console.error(`Failed to generate ${failed.length} general horoscopes`, failed);
+    }
 }
 
 export async function generateUserHoroscopes() {
@@ -27,7 +30,12 @@ export async function generateUserHoroscopes() {
 
     console.log(`Generating horoscopes for ${allUsers.length} users`);
 
-    await Promise.all(allUsers.map((user) => makeUserHoroscope(user.userId)));
+    const results = await Promise.allSettled(allUsers.map((user) => makeUserHoroscope(user.userId)));
+
+    const failed = results.filter((r) => r.status === 'rejected');
+    if (failed.length > 0) {
+        console.error(`Failed to generate ${failed.length} user horoscopes`, failed);
+    }
 
     console.log('Completed user horoscope generation');
 }
@@ -35,19 +43,25 @@ export async function generateUserHoroscopes() {
 export async function sendEmailToUsers() {
     const users = await convex.query(api.userSettings.getAllEmailOptedIn, {});
 
-    const promises = users.map(async (user) => {
-        const subject = `Daily Horoscope for ${extractDateString(new Date())}`;
-        const email = await getUserEmail(user.userId);
+    const today = new Date();
+    const subject = `Daily Horoscope for ${extractDateString(today)}`;
 
-        if (!email) {
-            console.error('No email found for user', user.userId);
-            return null;
-        }
+    const results = await Promise.allSettled(
+        users.map(async (user) => {
+            const email = await getUserEmail(user.userId);
 
-        const today = new Date();
-        const dailyHoroscope = await userHoroscopeKV.get(user.userId, today);
+            if (!email) {
+                console.error(`No email found for user ${user.userId}`);
+                return;
+            }
 
-        if (dailyHoroscope) {
+            const dailyHoroscope = await userHoroscopeKV.get(user.userId, today);
+
+            if (!dailyHoroscope) {
+                console.error(`No daily horoscope found for user ${user.userId}`);
+                return;
+            }
+
             const emailHtml = await render(
                 React.createElement(DailyHoroscopeEmail, {
                     name: user.name,
@@ -56,18 +70,16 @@ export async function sendEmailToUsers() {
             );
 
             const { timezone, emailTime } = user;
-
             const scheduledAt = createScheduledAt(emailTime, timezone);
 
+            console.log(`Sending email to ${email} (user ${user.userId}), scheduledAt: ${scheduledAt ?? 'now'}`);
             await sendEmail(email, subject, emailHtml, scheduledAt);
-        } else {
-            console.error('No daily horoscope found for user', user.userId);
-        }
+        })
+    );
 
-        return null;
-    });
-
-    console.info(`Sending emails to ${promises.length} users`);
-    await Promise.all(promises);
-    console.info(`Emails sent to ${promises.length} users`);
+    const failed = results.filter((r) => r.status === 'rejected');
+    console.info(`Emails: ${results.length - failed.length} sent, ${failed.length} failed`);
+    if (failed.length > 0) {
+        console.error('Failed emails:', failed);
+    }
 }

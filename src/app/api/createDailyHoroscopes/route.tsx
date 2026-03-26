@@ -10,13 +10,29 @@ export async function GET(request: NextRequest) {
         });
     }
 
-    console.log('CRON:Creating daily horoscopes');
+    console.log('CRON: Starting daily horoscope generation');
 
-    await generateGeneralHoroscopes();
+    try {
+        await generateGeneralHoroscopes();
+        console.log('CRON: General horoscopes completed');
+    } catch (error) {
+        console.error('CRON: Failed to generate general horoscopes', error);
+    }
 
-    await generateUserHoroscopes();
+    try {
+        await generateUserHoroscopes();
+        console.log('CRON: User horoscopes completed');
+    } catch (error) {
+        console.error('CRON: Failed to generate user horoscopes', error);
+    }
 
-    await sendEmailToUsers();
+    try {
+        await sendEmailToUsers();
+        console.log('CRON: Email sending completed');
+    } catch (error) {
+        console.error('CRON: Failed to send emails', error);
+    }
 
+    console.log('CRON: Daily horoscope job finished');
     return Response.json({ success: true });
 }
